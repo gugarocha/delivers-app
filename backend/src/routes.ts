@@ -6,5 +6,6 @@ const routes = Router();
 
 routes.get('/products', ProductsController.index);
 routes.post('/products', ProductsController.create);
+routes.put('/products/:id', ProductsController.update)
 
 export default routes;

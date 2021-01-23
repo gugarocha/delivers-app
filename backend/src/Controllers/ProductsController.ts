@@ -10,7 +10,7 @@ export default {
 
     return res.json(products);
   },
-  
+
   async create(req: Request, res: Response) {
     const { name, category_id } = req.body;
 
@@ -23,6 +23,24 @@ export default {
       console.log(err);
 
       return res.status(400).json({ error: 'Unexpected error while creating new product' });
+    }
+  },
+
+  async update(req: Request, res: Response) {
+    const { id } = req.params
+    const { name, category_id, active } = req.body;
+    
+    try {
+      await connection('products')
+        .where('id', '=', id)
+        .update({ name, category_id, active });
+
+      return res.json({ message: "Update product successfully" })
+;
+    } catch (error) {
+      console.log(error);
+
+      return res.json({ error: 'Unexpected error while update product' })
     }
   }
 };

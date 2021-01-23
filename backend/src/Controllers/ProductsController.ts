@@ -12,6 +12,14 @@ export default {
     return res.json(products);
   },
 
+  async showAll(req: Request, res: Response) {
+    const products = await connection('products')
+      .select('*')
+      .orderBy(['category_id', 'name']);
+
+    return res.json(products);
+  },
+
   async create(req: Request, res: Response) {
     const { name, category_id } = req.body;
 

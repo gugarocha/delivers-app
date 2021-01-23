@@ -6,7 +6,8 @@ export default {
   async index(req: Request, res: Response) {
     const products = await connection('products')
       .select('*')
-      .orderBy('category_id');
+      .where('active', '=', true)
+      .orderBy(['category_id', 'name']);
 
     return res.json(products);
   },

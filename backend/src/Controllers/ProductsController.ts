@@ -21,10 +21,13 @@ export default {
   },
 
   async create(req: Request, res: Response) {
-    const { name, category_id } = req.body;
+    const { name, categoryId } = req.body;
 
     try {
-      await connection('products').insert({ name, category_id });
+      await connection('products').insert({ 
+        name: name,
+        category_id: categoryId 
+      });
 
       return res.status(201).json({ message: 'Product created successfully' });
 
@@ -37,12 +40,16 @@ export default {
 
   async update(req: Request, res: Response) {
     const { id } = req.params
-    const { name, category_id, active } = req.body;
+    const { name, categoryId, isActive } = req.body;
     
     try {
       await connection('products')
         .where('id', '=', id)
-        .update({ name, category_id, active });
+        .update({ 
+          name: name,
+          category_id: categoryId,
+          active: isActive
+        });
 
       return res.json({ message: "Update product successfully" })
 ;

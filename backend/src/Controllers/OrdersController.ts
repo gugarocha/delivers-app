@@ -87,5 +87,22 @@ export default {
 
       return res.json({ error: 'Unexpected error while set delivered order' })
     };
+  },
+
+  async delete(req: Request, res: Response) {
+    const { id } = req.params;
+
+    try {
+      await connection('orders')
+        .where('id', '=', id)
+        .del();
+
+      return res.json({ message: 'Delete order successfully' });
+
+    } catch (error) {
+      console.log(error);
+
+      return res.json({ error: 'Unexpected error while delete order' });
+    };
   }
 };

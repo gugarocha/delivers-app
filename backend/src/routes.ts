@@ -11,5 +11,6 @@ routes.post('/products', ProductsController.create);
 routes.put('/products/:id', ProductsController.update)
 
 routes.post('/orders', OrdersController.create);
+routes.put('/orders/:id', OrdersController.update);
 
 export default routes;

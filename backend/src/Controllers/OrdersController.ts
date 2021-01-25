@@ -70,5 +70,22 @@ export default {
 
       return res.json({ error: 'Unexpected error while update order' });
     };
+  },
+
+  async setDelivered(req: Request, res: Response) {
+    const { id } = req.params;
+
+    try {
+      await connection('orders')
+        .where('id', '=', id)
+        .update('delivered', true);
+      
+      return res.json({ message: 'Set order delivered successfully' });
+
+    } catch (error) {
+      console.log(error);
+
+      return res.json({ error: 'Unexpected error while set delivered order' })
+    };
   }
 };

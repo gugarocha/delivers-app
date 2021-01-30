@@ -2,6 +2,11 @@ import { Request, Response } from "express";
 
 import connection from "../database/connection";
 
+interface Product {
+  productId: number;
+  productAmount: number;
+};
+
 export default {
   async create(req: Request, res: Response) {
     const { routeId, client, products, payment, valueToReceive } = req.body;
@@ -9,14 +14,24 @@ export default {
     const trx = await connection.transaction();
 
     try {
-      await trx('orders').insert({
-        route_id: routeId,
-        client: client,
-        payment: payment,
-        value_to_receive: valueToReceive
+      const orderId = await trx('orders')
+        .returning('id')
+        .insert({
+          route_id: routeId,
+          client: client,
+          payment: payment,
+          value_to_receive: valueToReceive
+        });
+
+      const prods = products.map((product: Product) => {
+        return {
+          order_id: orderId[0],
+          product_id: product.productId,
+          product_amount: product.productAmount
+        };
       });
 
-      await trx('orders_products').insert(products);
+      await trx('orders_products').insert(prods);
 
       await trx.commit();
 
@@ -51,7 +66,15 @@ export default {
         .where('order_id', '=', id)
         .del();
 
-      await trx('orders_products').insert(products);
+      const prods = products.map((product: Product) => {
+        return {
+          order_id: id,
+          product_id: product.productId,
+          product_amount: product.productAmount
+        };
+      });
+
+      await trx('orders_products').insert(prods);
 
       await trx.commit();
 
@@ -73,7 +96,7 @@ export default {
       await connection('orders')
         .where('id', '=', id)
         .update('delivered', true);
-      
+
       return res.json({ message: 'Set order delivered successfully' });
 
     } catch (error) {

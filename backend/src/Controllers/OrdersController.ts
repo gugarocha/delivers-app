@@ -2,12 +2,6 @@ import { Request, Response } from "express";
 
 import connection from "../database/connection";
 
-interface ProductItem {
-  order_id: number;
-  product_id: number;
-  product_amount: number;
-}
-
 export default {
   async create(req: Request, res: Response) {
     const { routeId, client, products, payment, valueToReceive } = req.body;

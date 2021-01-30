@@ -3,6 +3,7 @@ import { Router } from 'express';
 import ProductsController from './Controllers/ProductsController';
 import OrdersController from './Controllers/OrdersController';
 import DeliversController from './Controllers/DeliversController';
+import RoutesController from './Controllers/RoutesController';
 
 const routes = Router();
 
@@ -17,5 +18,7 @@ routes.put('/orders/:id/delivered', OrdersController.setDelivered);
 routes.delete('/orders/:id', OrdersController.delete);
 
 routes.get('/delivers', DeliversController.index);
+
+routes.get('/routes/:id/orders', RoutesController.index);
 
 export default routes;

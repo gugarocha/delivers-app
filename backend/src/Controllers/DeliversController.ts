@@ -4,7 +4,6 @@ import connection from "../database/connection";
 import { Order } from "../types";
 import fetchProducts from "../utils/fetchProducts";
 
-
 export default {
   async index(req: Request, res: Response) {
     const orders: Order[] = await connection('orders')

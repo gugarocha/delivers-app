@@ -1,9 +1,15 @@
 import { Request, Response } from "express";
 
 import connection from "../database/connection";
-import { Order } from "../types";
 
+import { CategoryEnum, Order, Product } from "../types";
 import fetchProducts from "../utils/fetchProducts";
+
+interface Category {
+  category: string;
+  itemsCategoryTotal: number;
+  products: Product[];
+}
 
 export default {
   async index(req: Request, res: Response) {
@@ -22,5 +28,57 @@ export default {
     const ordersProducts = await fetchProducts(orders);
 
     res.json(ordersProducts);
+  },
+
+  async summary(req: Request, res: Response) {
+    const routeId = req.params.id;
+
+    let ordersIds = await connection('orders')
+      .select('id')
+      .where('route_id', '=', routeId);
+
+    ordersIds = ordersIds.map(({ id }) => id);
+
+    const products: Product[] = await connection('products')
+      .select({
+        id: 'products.id',
+        product: 'products.name',
+        categoryId: 'categories.id',
+        productAmount: connection.sum('orders_products.product_amount')
+      })
+      .innerJoin('orders_products', 'orders_products.product_id', 'products.id')
+      .innerJoin('categories', 'categories.id', 'products.category_id')
+      .groupBy('products.id', 'categories.id', 'products.name')
+      .orderBy(['categories.id', 'products.name'])
+      .whereIn('order_id', ordersIds);
+
+    let categories: Category[] = [];
+
+    products.forEach(product => {
+      const index = product.categoryId - 1;
+
+      if (categories[index] === undefined) {
+        categories.push({
+          category: CategoryEnum[product.categoryId],
+          itemsCategoryTotal: 0,
+          products: []
+        });
+      };
+
+      categories[index].itemsCategoryTotal += Number(product.productAmount);
+      categories[index].products.push(product);
+    });
+
+    const itemsTotal = products
+      .map(product => Number(product.productAmount))
+      .reduce((sum, value) => sum + value);
+
+    const summary = {
+      ordersTotal: ordersIds.length,
+      itemsTotal,
+      categories
+    };
+
+    res.json(summary);
   }
 };

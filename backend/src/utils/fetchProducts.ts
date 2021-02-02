@@ -9,12 +9,13 @@ export default async function fetchProducts(orders: Order[]) {
     .select({
       id: 'orders_products.product_id',
       product: 'products.name',
-      category: 'categories.name',
+      categoryId: 'categories.id',
       productAmount: 'orders_products.product_amount',
       orderId: 'orders_products.order_id'
     })
     .innerJoin('products', 'product_id', 'products.id')
     .innerJoin('categories', 'categories.id', 'products.category_id')
+    .orderBy(['categories.id', 'products.name'])
     .whereIn('order_id', ordersIds);
 
   const ordersProducts = orders.map(order => {

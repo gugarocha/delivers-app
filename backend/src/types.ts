@@ -11,7 +11,13 @@ export interface Order {
 export interface Product {
   id: number;
   product: string;
-  category: string;
+  categoryId: number;
   productAmount: number;
   orderId?: number;
 };
+
+export enum CategoryEnum {
+  Sacarias = 1,
+  Águas,
+  Mercadorias
+}

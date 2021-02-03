@@ -58,11 +58,11 @@ export default {
       const index = product.categoryId - 1;
 
       if (categories[index] === undefined) {
-        categories.push({
+        categories[index] = {
           category: CategoryEnum[product.categoryId],
           itemsCategoryTotal: 0,
           products: []
-        });
+        };
       };
 
       categories[index].itemsCategoryTotal += Number(product.productAmount);

@@ -19,7 +19,8 @@ routes.delete('/orders/:id', OrdersController.delete);
 
 routes.get('/delivers', DeliversController.index);
 
-routes.get('/routes/:id/orders', RoutesController.index);
+routes.get('/routes/:id/orders', RoutesController.showOrders);
 routes.get('/routes/:id/summary', RoutesController.summary);
+routes.post('/routes', RoutesController.create);
 
 export default routes;

@@ -12,7 +12,7 @@ interface Category {
 }
 
 export default {
-  async index(req: Request, res: Response) {
+  async showOrders(req: Request, res: Response) {
     const routeId = req.params.id
 
     const orders: Order[] = await connection('orders')
@@ -80,5 +80,23 @@ export default {
     };
 
     res.json(summary);
+  },
+
+  async create(req: Request, res: Response) {
+    const {name, date} = req.body
+    
+    try {
+      await connection('routes').insert({
+        name,
+        date
+      });
+
+      return res.status(201).json({ message: 'Route created successfully' });
+
+    } catch (err) {
+      console.log(err);
+
+      return res.status(400).json({ error: 'Unexpected error while creating new route' });
+    };
   }
 };

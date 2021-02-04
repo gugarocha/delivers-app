@@ -24,5 +24,6 @@ routes.get('/routes/:id/orders', RoutesController.showOrders);
 routes.get('/routes/:id/summary', RoutesController.summary);
 routes.post('/routes', RoutesController.create);
 routes.put('/routes/:id', RoutesController.update);
+routes.put('/routes/:id/finished', RoutesController.setFinished);
 
 export default routes;

@@ -127,5 +127,22 @@ export default {
 
       return res.status(401).json({ error: 'Unexpected error while update route' });
     };
+  },
+
+  async setFinished(req: Request, res: Response) {
+    const { id } = req.params;
+
+    try {
+      await connection('routes')
+        .where('id', '=', id)
+        .update('finished', true);
+
+      return res.json({ message: 'Set route finished successfully' });
+
+    } catch (err) {
+      console.log(err);
+
+      return res.json({ error: 'Unexpected error while set finished route' });
+    };
   }
 };

@@ -91,8 +91,8 @@ export default {
   },
 
   async create(req: Request, res: Response) {
-    const {name, date} = req.body;
-    
+    const { name, date } = req.body;
+
     try {
       await connection('routes').insert({
         name,
@@ -105,6 +105,27 @@ export default {
       console.log(err);
 
       return res.status(400).json({ error: 'Unexpected error while creating new route' });
+    };
+  },
+
+  async update(req: Request, res: Response) {
+    const { id } = req.params;
+    const { name, date } = req.body;
+
+    try {
+      await connection('routes')
+        .where('id', '=', id)
+        .update({
+          name,
+          date
+        });
+
+      return res.status(201).json({ message: 'Update route successfully' });
+
+    } catch (err) {
+      console.log(err);
+
+      return res.status(401).json({ error: 'Unexpected error while update route' });
     };
   }
 };

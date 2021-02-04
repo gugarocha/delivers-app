@@ -23,5 +23,6 @@ routes.get('/routes', RoutesController.index);
 routes.get('/routes/:id/orders', RoutesController.showOrders);
 routes.get('/routes/:id/summary', RoutesController.summary);
 routes.post('/routes', RoutesController.create);
+routes.put('/routes/:id', RoutesController.update);
 
 export default routes;

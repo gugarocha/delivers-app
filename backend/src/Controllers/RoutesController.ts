@@ -9,9 +9,17 @@ interface Category {
   category: string;
   itemsCategoryTotal: number;
   products: Product[];
-}
+};
 
 export default {
+  async index(req: Request, res: Response) {
+    const routes = await connection('routes')
+      .select('*')
+      .where('finished', '=', false);
+
+    return res.json(routes);
+  },
+
   async showOrders(req: Request, res: Response) {
     const routeId = req.params.id
 
@@ -23,7 +31,7 @@ export default {
         valueToReceive: 'value_to_receive',
         delivered: 'delivered'
       })
-      .where('route_id', '=', routeId)
+      .where('route_id', '=', routeId);
 
     const ordersProducts = await fetchProducts(orders);
 
@@ -83,7 +91,7 @@ export default {
   },
 
   async create(req: Request, res: Response) {
-    const {name, date} = req.body
+    const {name, date} = req.body;
     
     try {
       await connection('routes').insert({

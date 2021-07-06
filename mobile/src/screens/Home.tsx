@@ -20,7 +20,7 @@ import { NewRouteCard } from '../components/NewRouteCard';
 
 import { captalize } from '../utils/captalize';
 
-const Home: React.FC = () => {
+export default function Home() {
   const [modalVisible, setModalVisible] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [date, setDate] = useState<Date>();
@@ -50,7 +50,7 @@ const Home: React.FC = () => {
 
     if (selectedDate) {
       setDate(selectedDate);
-      setRouteName(captalize(format(selectedDate, 'eeee', {locale: pt})));
+      setRouteName(captalize(format(selectedDate, 'eeee', { locale: pt })));
       setShowDatePicker(false);
     };
   };
@@ -134,8 +134,6 @@ const Home: React.FC = () => {
     </>
   );
 };
-
-export default Home;
 
 const styles = StyleSheet.create({
   modalContainer: {

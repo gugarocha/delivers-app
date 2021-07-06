@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-import Constants from 'expo-constants';
+import { styles } from './styles';
 
 interface Props {
   title: string;
@@ -38,30 +38,3 @@ export const Header = ({ title, showBackButton = true, children }: Props) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#0278AE',
-    paddingTop: Constants.statusBarHeight,
-    paddingBottom: 10,
-    paddingHorizontal: 12,
-  },
-  backAndTitleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  backButton: {
-    marginRight: 24,
-  },
-  tilte: {
-    color: '#FFF',
-    fontSize: 24,
-  },
-  optionalButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-});

@@ -6,7 +6,6 @@ import {
   TextInput,
   View,
   TouchableOpacity,
-  StyleSheet
 } from "react-native";
 import Modal from 'react-native-modal';
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
@@ -14,11 +13,12 @@ import { Feather } from '@expo/vector-icons';
 import { format } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 
-import { Header } from '../components/Header';
-import { RouteCard } from '../components/RouteCard';
-import { NewRouteCard } from '../components/NewRouteCard';
+import { Header } from '../../components/Header';
+import { RouteCard } from '../../components/RouteCard';
+import { NewRouteCard } from '../../components/NewRouteCard';
 
-import { captalize } from '../utils/captalize';
+import { styles } from './styles';
+import { captalize } from '../../utils/captalize';
 
 export default function Home() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -134,62 +134,3 @@ export default function Home() {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  modalContainer: {
-    backgroundColor: '#FFF',
-    paddingHorizontal: 30,
-    paddingVertical: 15,
-    borderRadius: 15,
-  },
-  modalTitleText: {
-    textAlign: 'center',
-    fontSize: 26,
-    color: '#0278AE',
-  },
-  modalRowWrapper: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-    marginTop: 30,
-  },
-  modalLabel: {
-    marginRight: 8,
-    color: '#6C757D'
-  },
-  calendarIcon: {
-    marginRight: 5,
-  },
-  modalInput: {
-    flex: 1,
-    borderBottomWidth: 1,
-    fontSize: 16,
-  },
-  modalCancelButton: {
-    paddingHorizontal: 30,
-    paddingVertical: 10,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#6A097D',
-  },
-  modalCancelButtonText: {
-    color: '#6A097D',
-  },
-  modalConfirmButton: {
-    paddingHorizontal: 30,
-    paddingVertical: 10,
-    borderRadius: 20,
-    borderWidth: 1,
-    backgroundColor: '#6A097D',
-  },
-  modalConfirmButtonText: {
-    color: '#FFF'
-  },
-  container: {
-    marginTop: 30,
-    paddingHorizontal: 12,
-  },
-  cardsContainer: {
-    justifyContent: 'space-between',
-  },
-});

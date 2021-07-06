@@ -1,12 +1,14 @@
 import { StyleSheet } from "react-native";
 import Constants from "expo-constants";
 
+import { theme } from "../../global/styles";
+
 export const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#0278AE',
+    backgroundColor: theme.colors.primary,
     paddingTop: Constants.statusBarHeight,
     paddingBottom: 10,
     paddingHorizontal: 12,
@@ -18,8 +20,9 @@ export const styles = StyleSheet.create({
   backButton: {
     marginRight: 24,
   },
-  tilte: {
+  title: {
     color: '#FFF',
+    fontFamily: theme.fonts.regular,
     fontSize: 24,
   },
   optionalButtonsContainer: {

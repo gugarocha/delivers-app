@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
 
+import { theme } from "../../global/styles";
+
 export const styles = StyleSheet.create({
   modalContainer: {
     backgroundColor: '#FFF',
@@ -9,8 +11,9 @@ export const styles = StyleSheet.create({
   },
   modalTitleText: {
     textAlign: 'center',
+    color: theme.colors.primary,
+    fontFamily: theme.fonts.regular,
     fontSize: 26,
-    color: '#0278AE',
   },
   modalRowWrapper: {
     flexDirection: 'row',
@@ -20,13 +23,16 @@ export const styles = StyleSheet.create({
   },
   modalLabel: {
     marginRight: 8,
-    color: '#6C757D'
+    color: theme.colors.gray,
+    fontFamily: theme.fonts.light,
+    fontSize: 16  
   },
   calendarIcon: {
     marginRight: 5,
   },
   modalInput: {
     flex: 1,
+    borderColor: theme.colors.gray,
     borderBottomWidth: 1,
     fontSize: 16,
   },
@@ -35,17 +41,17 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#6A097D',
+    borderColor: theme.colors.secondary,
   },
   modalCancelButtonText: {
-    color: '#6A097D',
+    color: theme.colors.secondary,
   },
   modalConfirmButton: {
     paddingHorizontal: 30,
     paddingVertical: 10,
     borderRadius: 20,
     borderWidth: 1,
-    backgroundColor: '#6A097D',
+    backgroundColor: theme.colors.secondary,
   },
   modalConfirmButtonText: {
     color: '#FFF'

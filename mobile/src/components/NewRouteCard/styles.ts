@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
 
+import { theme } from "../../global/styles";
+
 export const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
@@ -15,7 +17,7 @@ export const styles = StyleSheet.create({
   },
   newRouteText: {
     marginTop: 15,
-    color: '#6C757D',
+    color: theme.colors.gray,
     fontSize: 16,
   },
 });

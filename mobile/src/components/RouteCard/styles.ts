@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
 
+import { theme } from "../../global/styles";
+
 export const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
@@ -12,14 +14,16 @@ export const styles = StyleSheet.create({
     elevation: 3,
   },
   routeName: {
-    color: '#6A097D',
-    fontWeight: 'bold',
+    color: theme.colors.secondary,
+    fontFamily: theme.fonts.bold,
+    fontSize: 15,
   },
   infoContainer: {
     marginTop: 14,
   },
   label: {
-    color: '#6C757D',
-    fontSize: 12,
+    color: theme.colors.gray,
+    fontFamily: theme.fonts.light,
+    fontSize: 13,
   },
 });

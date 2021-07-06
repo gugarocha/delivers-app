@@ -29,7 +29,7 @@ export const Header = ({ title, showBackButton = true, children }: Props) => {
             <Feather name='arrow-left' size={24} color='#FFF' />
           </TouchableOpacity>
         )}
-        <Text style={styles.tilte}>{title}</Text>
+        <Text style={styles.title}>{title}  </Text>
       </View>
 
       <View style={styles.optionalButtonsContainer}>

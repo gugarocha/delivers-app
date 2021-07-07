@@ -7,13 +7,13 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import Modal from 'react-native-modal';
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { Feather } from '@expo/vector-icons';
 import { format } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 
 import { Header } from '../../components/Header';
+import { ActionModal } from '../../components/ActionModal';
 import { RouteCard } from '../../components/RouteCard';
 import { NewRouteCard } from '../../components/NewRouteCard';
 
@@ -63,59 +63,39 @@ export default function Home() {
         </TouchableOpacity>
       </Header>
 
-      <Modal
+      <ActionModal
         isVisible={modalVisible}
-        backdropOpacity={0.2}
-        animationIn="zoomIn"
-        animationOut="zoomOut"
+        title='Nova Rota'
+        confirmButtonAction={toggleModalVisible}
+        cancelButtonAction={toggleModalVisible}
       >
-        <View style={styles.modalContainer}>
-          <Text style={styles.modalTitleText}>Nova rota</Text>
+        {showDatePicker &&
+          <DateTimePicker
+            value={date || new Date()}
+            onChange={handleChangeDate}
+          />
+        }
 
-          <View style={styles.modalRowWrapper}>
-            <Text style={styles.modalLabel}>Data:</Text>
-            <Feather name='calendar' size={16} style={styles.calendarIcon} />
-            <TouchableOpacity
-              style={styles.modalInput}
-              onPress={() => setShowDatePicker(true)}
-            >
-              <Text>{date && format(date, 'dd/MM/yyyy')}</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.modalRowWrapper}>
-            <Text style={styles.modalLabel}>Rota:</Text>
-            <TextInput
-              style={styles.modalInput}
-              value={routeName}
-              onChangeText={value => setRouteName(value)}
-            />
-          </View>
-
-          <View style={styles.modalRowWrapper}>
-            <TouchableOpacity
-              style={styles.modalCancelButton}
-              onPress={toggleModalVisible}
-            >
-              <Text style={styles.modalCancelButtonText}>Cancelar</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.modalConfirmButton}
-              onPress={toggleModalVisible}
-            >
-              <Text style={styles.modalConfirmButtonText}>Confirmar</Text>
-            </TouchableOpacity>
-
-            {showDatePicker &&
-              <DateTimePicker
-                value={date || new Date()}
-                onChange={handleChangeDate}
-              />
-            }
-          </View>
+        <View style={styles.modalRowWrapper}>
+          <Text style={styles.modalLabel}>Data:</Text>
+          <Feather name='calendar' size={16} style={styles.calendarIcon} />
+          <TouchableOpacity
+            style={styles.modalInput}
+            onPress={() => setShowDatePicker(true)}
+          >
+            <Text>{date && format(date, 'dd/MM/yyyy')}</Text>
+          </TouchableOpacity>
         </View>
-      </Modal>
+
+        <View style={styles.modalRowWrapper}>
+          <Text style={styles.modalLabel}>Rota:</Text>
+          <TextInput
+            style={styles.modalInput}
+            value={routeName}
+            onChangeText={setRouteName}
+          />
+        </View>
+      </ActionModal>
 
       <View style={styles.container}>
         <FlatList

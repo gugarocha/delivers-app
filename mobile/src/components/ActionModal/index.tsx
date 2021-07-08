@@ -1,6 +1,8 @@
 import React from 'react';
 import Modal from 'react-native-modal';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
+
+import { ActionButton } from '../ActionButton';
 
 import { styles } from './styles';
 
@@ -32,19 +34,15 @@ export function ActionModal({
         {children}
 
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity
-            style={styles.cancelButton}
+          <ActionButton
+            type='Cancelar'
             onPress={cancelButtonAction}
-          >
-            <Text style={styles.cancelButtonText}>Cancelar</Text>
-          </TouchableOpacity>
+          />
 
-          <TouchableOpacity
-            style={styles.confirmButton}
+          <ActionButton
+            type='Confirmar'
             onPress={confirmButtonAction}
-          >
-            <Text style={styles.confirmButtonText}>Confirmar</Text>
-          </TouchableOpacity>
+          />
         </View>
       </View>
     </Modal>

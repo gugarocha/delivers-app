@@ -21,24 +21,4 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 30,
   },
-  cancelButton: {
-    paddingHorizontal: 30,
-    paddingVertical: 10,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: theme.colors.secondary,
-  },
-  cancelButtonText: {
-    color: theme.colors.secondary,
-  },
-  confirmButton: {
-    paddingHorizontal: 30,
-    paddingVertical: 10,
-    borderRadius: 20,
-    borderWidth: 1,
-    backgroundColor: theme.colors.secondary,
-  },
-  confirmButtonText: {
-    color: '#FFF',
-  },
 });

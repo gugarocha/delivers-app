@@ -3,6 +3,9 @@ import { StyleSheet } from "react-native";
 import { theme } from "../../global/styles";
 
 export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   modalRowWrapper: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -24,7 +27,8 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     fontSize: 16,
   },
-  container: {
+  contentContainer: {
+    flex: 1,
     marginTop: 30,
     paddingHorizontal: 12,
   },

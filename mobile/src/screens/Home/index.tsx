@@ -56,7 +56,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <View style={styles.container}>
       <Header title='Rotas' showBackButton={false}>
         <TouchableOpacity >
           <Feather name='filter' size={24} color='#FFF' />
@@ -97,7 +97,7 @@ export default function Home() {
         </View>
       </ActionModal>
 
-      <View style={styles.container}>
+      <View style={styles.contentContainer}>
         <FlatList
           data={[...data, { id: undefined }]}
           keyExtractor={item => String(item.id)}
@@ -111,6 +111,6 @@ export default function Home() {
           showsVerticalScrollIndicator={false}
         />
       </View>
-    </>
+    </View>
   );
 };

@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: theme.colors.primary,
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: Constants.statusBarHeight + 8,
     paddingBottom: 10,
     paddingHorizontal: 12,
   },

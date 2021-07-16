@@ -27,6 +27,7 @@ export function ActionModal({
       backdropOpacity={0.2}
       animationIn="zoomIn"
       animationOut="zoomOut"
+      onBackButtonPress={cancelButtonAction}
     >
       <View style={styles.container}>
         <Text style={styles.title}>{title}</Text>

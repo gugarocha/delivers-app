@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/core';
 import {
   View,
   TouchableOpacity,
@@ -16,6 +17,12 @@ import { OrdersProps } from '../../utils/types';
 import { styles } from './styles';
 
 export default function OrdersRoute() {
+  const navigation = useNavigation();
+
+  function handleNavigateToOrderCreate() {
+    navigation.navigate('OrderCreate');
+  };
+
   const data: OrdersProps[] = [
     {
       id: 3,
@@ -76,7 +83,10 @@ export default function OrdersRoute() {
   return (
     <View style={styles.container}>
       <Header title='Pedidos'>
-        <TouchableOpacity style={styles.buttonIcon}>
+        <TouchableOpacity
+          style={styles.buttonIcon}
+          onPress={handleNavigateToOrderCreate}
+        >
           <Feather name='plus' size={24} color='#FFF' />
         </TouchableOpacity>
 

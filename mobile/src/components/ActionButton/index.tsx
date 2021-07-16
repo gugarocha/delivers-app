@@ -15,6 +15,7 @@ export function ActionButton({ type, ...rest }: Props) {
         styles.container,
         type === 'Confirmar' && styles.confirm
       ]}
+      activeOpacity={0.7}
       {...rest}
     >
       <Text

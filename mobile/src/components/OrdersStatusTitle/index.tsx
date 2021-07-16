@@ -5,7 +5,7 @@ import { Feather } from '@expo/vector-icons';
 import { styles } from './styles';
 import { theme } from '../../global/styles';
 
-type Props = {
+interface Props {
   delivered: boolean;
 };
 

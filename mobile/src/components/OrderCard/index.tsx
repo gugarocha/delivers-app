@@ -7,7 +7,7 @@ import { OrdersProps } from '../../utils/types';
 import { styles } from './styles';
 import { theme } from '../../global/styles';
 
-type Props = {
+interface Props {
   data: OrdersProps;
 };
 

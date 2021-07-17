@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRoute } from '@react-navigation/core';
 import {
   ScrollView,
   View,
@@ -13,40 +14,22 @@ import { SelectedProductsList } from '../../components/SelectedProductsList';
 import { CheckBoxGroup } from '../../components/CheckBoxGroup';
 import { ActionButton } from '../../components/ActionButton';
 
-import { OrderProductsProps } from '../../utils/types';
+import { OrdersProps, OrderProductsProps } from '../../utils/types';
 
 import { styles } from './styles';
 
+interface Params {
+  selectedOrder: OrdersProps
+};
+
 export default function OrderCreate() {
-  const [clientName, setClientName] = useState('');
-  const [products, setProducts] = useState<OrderProductsProps[]>([
-    {
-      id: 1,
-      product: "Milho Saco",
-      categoryId: 1,
-      productAmount: 1
-    },
-    {
-      id: 2,
-      product: "Poim Saco",
-      categoryId: 1,
-      productAmount: 2
-    },
-    {
-      id: 3,
-      product: "Água Norte",
-      categoryId: 2,
-      productAmount: 3
-    },
-    {
-      id: 4,
-      product: "Rezido",
-      categoryId: 1,
-      productAmount: 1
-    },
-  ]);
-  const [payment, setPayment] = useState('Pendente');
-  const [delivered, setDelivered] = useState('Não');
+  const route = useRoute();
+  const { selectedOrder } = route.params as Params;
+
+  const [clientName, setClientName] = useState(selectedOrder.client);
+  const [products, setProducts] = useState<OrderProductsProps[]>(selectedOrder.products);
+  const [payment, setPayment] = useState(selectedOrder.payment);
+  const [delivered, setDelivered] = useState(selectedOrder.delivered ? 'Sim' : 'Não');
 
   return (
     <View style={styles.container}>
@@ -84,7 +67,7 @@ export default function OrderCreate() {
           <CheckBoxGroup
             values={['Pendente', 'Ok', 'Receber']}
             selectedValue={payment}
-            setSelectedValue={setPayment}
+            setSelectedValue={setPayment as (value: string) => void}
           />
 
           <Text style={styles.label}>
@@ -93,7 +76,7 @@ export default function OrderCreate() {
           <CheckBoxGroup
             values={['Não', 'Sim']}
             selectedValue={delivered}
-            setSelectedValue={setDelivered}
+            setSelectedValue={setDelivered as (value: string) => void}
           />
         </FormContainer>
 

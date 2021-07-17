@@ -12,7 +12,7 @@ import { Header } from '../../components/Header';
 import { OrdersList } from '../../components/OrdersList';
 import { OrdersStatusTitle } from '../../components/OrdersStatusTitle';
 
-import { OrdersProps } from '../../utils/types';
+import { OrderProductsProps, OrdersProps } from '../../utils/types';
 
 import { styles } from './styles';
 
@@ -20,7 +20,12 @@ export default function OrdersRoute() {
   const navigation = useNavigation();
 
   function handleNavigateToOrderCreate() {
-    navigation.navigate('OrderCreate');
+    navigation.navigate('OrderCreate', { selectedOrder: {
+      client: '',
+      products: [] as OrderProductsProps[],
+      payment: 'Pendente',
+      delivered: false,
+    } as OrdersProps });
   };
 
   const data: OrdersProps[] = [
@@ -60,8 +65,7 @@ export default function OrdersRoute() {
     {
       id: 4,
       client: "Sicrano",
-      payment: 'Receber',
-      valueToReceive: "350.00",
+      payment: 'Ok',
       delivered: true,
       products: [
         {

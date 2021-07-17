@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/core';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
@@ -12,6 +13,12 @@ interface Props {
 };
 
 export function OrderCard({ data }: Props) {
+  const navigation = useNavigation();
+
+  function handleEditOrder() {
+    navigation.navigate('OrderCreate', { selectedOrder: data});
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.orderInfo}>
@@ -48,7 +55,10 @@ export function OrderCard({ data }: Props) {
       <View style={styles.divider} />
 
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity 
+          style={styles.button}
+          onPress={handleEditOrder}
+        >
           <Feather name='edit' size={25} color={theme.colors.gray} />
           <Text style={styles.buttonText}>
             Editar{'\n'}Pedido

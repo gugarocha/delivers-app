@@ -16,7 +16,7 @@ export function OrderCard({ data }: Props) {
   const navigation = useNavigation();
 
   function handleEditOrder() {
-    navigation.navigate('OrderCreate', { selectedOrder: data});
+    navigation.navigate('OrderCreate', { selectedOrder: data });
   };
 
   return (
@@ -47,15 +47,23 @@ export function OrderCard({ data }: Props) {
         <Text style={styles.label}>
           Pagamento
         </Text>
-        <Text style={styles.value}>
-          {data.payment}
-        </Text>
+        <View style={styles.paymentValueContainer}>
+          <Text style={styles.value}>
+            {data.payment}
+          </Text>
+          {
+            data.valueToReceive &&
+            <Text style={styles.value}>
+              R$ {data.valueToReceive}
+            </Text>
+          }
+        </View>
       </View>
 
       <View style={styles.divider} />
 
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.button}
           onPress={handleEditOrder}
         >

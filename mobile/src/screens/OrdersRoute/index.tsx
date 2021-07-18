@@ -33,7 +33,7 @@ export default function OrdersRoute() {
       id: 3,
       client: "Sicrano",
       payment: 'Receber',
-      valueToReceive: "350.00",
+      valueToReceive: "350,00",
       delivered: false,
       products: [
         {

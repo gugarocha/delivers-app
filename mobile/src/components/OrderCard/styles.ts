@@ -22,6 +22,10 @@ export const styles = StyleSheet.create({
   productsList: {
     flexDirection: 'row',
   },
+  paymentValueContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   divider: {
     height: 0.5,
     marginTop: 10,

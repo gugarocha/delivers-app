@@ -20,13 +20,34 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     color: theme.colors.gray,
   },
-  input: {
+  clientNameInput: {
     borderBottomWidth: 1,
     borderColor: theme.colors.gray,
   },
   addProductsText: {
     marginTop: 5,
     color: theme.colors.secondary,
+  },
+  paymentSelectContainer: {
+    flexDirection: 'row',
+  },
+  valueToReceiveContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    marginBottom: 5,
+    marginLeft: 20,
+  },
+  currencyPrefix: {
+    alignSelf: 'flex-end',
+    fontSize: 12,
+    color: theme.colors.gray,
+  },
+  valueToReceiveInput: {
+    width: 65,
+    borderBottomWidth: 1,
+    borderColor: theme.colors.gray,
+    textAlign: 'right',
   },
   footer: {
     flexDirection: 'row',

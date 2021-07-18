@@ -29,7 +29,17 @@ export default function OrderCreate() {
   const [clientName, setClientName] = useState(selectedOrder.client);
   const [products, setProducts] = useState<OrderProductsProps[]>(selectedOrder.products);
   const [payment, setPayment] = useState(selectedOrder.payment);
+  const [valueToReceive, setValueToReceive] = useState(selectedOrder.valueToReceive as string);
   const [delivered, setDelivered] = useState(selectedOrder.delivered ? 'Sim' : 'Não');
+
+  function handleChangeTextInput(value: string) {
+    let maskedValue = value
+      .replace(/\D/g, '')
+      .replace(/(\d)(\d{2})$/, '$1,$2')
+      .replace(/(?=(\d{3})+(\D))\B/g, '.');
+
+    setValueToReceive(maskedValue);
+  };
 
   return (
     <View style={styles.container}>
@@ -41,7 +51,7 @@ export default function OrderCreate() {
             Cliente
           </Text>
           <TextInput
-            style={styles.input}
+            style={styles.clientNameInput}
             value={clientName}
             onChangeText={setClientName}
             placeholder='Nome'
@@ -61,14 +71,32 @@ export default function OrderCreate() {
             </Text>
           </TouchableOpacity>
 
-          <Text style={styles.label}>
-            Pagamento
-          </Text>
-          <CheckBoxGroup
-            values={['Pendente', 'Ok', 'Receber']}
-            selectedValue={payment}
-            setSelectedValue={setPayment as (value: string) => void}
-          />
+          <View style={styles.paymentSelectContainer}>
+            <View>
+              <Text style={styles.label}>
+                Pagamento
+              </Text>
+              <CheckBoxGroup
+                values={['Pendente', 'Ok', 'Receber']}
+                selectedValue={payment}
+                setSelectedValue={setPayment as (value: string) => void}
+              />
+            </View>
+
+            {
+              payment === 'Receber' &&
+              <View style={styles.valueToReceiveContainer}>
+                <Text style={styles.currencyPrefix}>R$ </Text>
+                <TextInput
+                  style={styles.valueToReceiveInput}
+                  value={valueToReceive}
+                  onChangeText={handleChangeTextInput}
+                  placeholder='0,00'
+                  keyboardType='number-pad'
+                />
+              </View>
+            }
+          </View>
 
           <Text style={styles.label}>
             Entregue

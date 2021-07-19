@@ -35,11 +35,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-end',
-    marginBottom: 5,
     marginLeft: 20,
   },
   currencyPrefix: {
-    alignSelf: 'flex-end',
+    marginRight: 4,
     fontSize: 12,
     color: theme.colors.gray,
   },

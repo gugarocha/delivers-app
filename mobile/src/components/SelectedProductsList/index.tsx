@@ -4,17 +4,14 @@ import { Feather } from '@expo/vector-icons';
 
 import { ActionModal } from '../ActionModal';
 
+import { useSelectedProducts } from '../../hooks/selectedProducts';
 import { OrderProductsProps } from '../../utils/types';
 
 import { styles } from './styles';
 
-interface Props {
-  products: OrderProductsProps[];
-  setProducts: (updatedProducts: OrderProductsProps[]) => void;
-};
+export function SelectedProductsList() {
+  const { selectedProducts, setSelectedProducts } = useSelectedProducts();
 
-
-export function SelectedProductsList({ products, setProducts }: Props) {
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<OrderProductsProps>(
     {} as OrderProductsProps
@@ -25,7 +22,7 @@ export function SelectedProductsList({ products, setProducts }: Props) {
   };
 
   function handleModalConfirmButton() {
-    const updatedProducts = products.map(product => {
+    const updatedProducts = selectedProducts.map(product => {
       if (product.id === selectedProduct.id) {
         return selectedProduct;
       };
@@ -34,7 +31,7 @@ export function SelectedProductsList({ products, setProducts }: Props) {
 
     selectedProduct.productAmount === 0
       ? handleRemoveProduct(selectedProduct.id)
-      : setProducts(updatedProducts);
+      : setSelectedProducts(updatedProducts);
 
     closeModal();
   };
@@ -51,9 +48,9 @@ export function SelectedProductsList({ products, setProducts }: Props) {
   };
 
   function handleRemoveProduct(id: number) {
-    const updatedProducts = products.filter(product => product.id !== id);
+    const updatedProducts = selectedProducts.filter(product => product.id !== id);
 
-    setProducts(updatedProducts);
+    setSelectedProducts(updatedProducts);
   };
 
   return (
@@ -78,9 +75,9 @@ export function SelectedProductsList({ products, setProducts }: Props) {
         </View>
       </ActionModal>
 
-      {products.length === 0
+      {selectedProducts.length === 0
         ? <Text style={styles.emptyListText}>Nenhum produto selecionado</Text>
-        : products.map((product, index) => (
+        : selectedProducts.map((product, index) => (
           <View key={product.id}>
             <View style={styles.container}>
               <TouchableOpacity
@@ -99,7 +96,7 @@ export function SelectedProductsList({ products, setProducts }: Props) {
 
             </View>
             {
-              index < products.length - 1 && <View style={styles.divider} />
+              index < selectedProducts.length - 1 && <View style={styles.divider} />
             }
           </View>
         ))}

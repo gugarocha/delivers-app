@@ -14,7 +14,8 @@ import { SelectedProductsList } from '../../components/SelectedProductsList';
 import { CheckBoxGroup } from '../../components/CheckBoxGroup';
 import { ActionButton } from '../../components/ActionButton';
 
-import { OrdersProps, OrderProductsProps } from '../../utils/types';
+import { useSelectedProducts } from '../../hooks/selectedProducts';
+import { OrdersProps } from '../../utils/types';
 
 import { styles } from './styles';
 
@@ -25,17 +26,16 @@ interface Params {
 export default function OrderCreate() {
   const route = useRoute();
   const { selectedOrder } = route.params as Params;
-
+  
   const [clientName, setClientName] = useState(selectedOrder.client);
-  const [products, setProducts] = useState<OrderProductsProps[]>(selectedOrder.products);
   const [payment, setPayment] = useState(selectedOrder.payment);
   const [valueToReceive, setValueToReceive] = useState(selectedOrder.valueToReceive as string);
   const [delivered, setDelivered] = useState(selectedOrder.delivered ? 'Sim' : 'Não');
-
+  
   const navigation = useNavigation();
 
   function handleNavigateToAddProducts() {
-    navigation.navigate('AddProducts', { products });
+    navigation.navigate('AddProducts');
   };
 
   function handleChangeValueToReceive(value: string) {
@@ -67,10 +67,7 @@ export default function OrderCreate() {
           <Text style={styles.label}>
             Produtos
           </Text>
-          <SelectedProductsList
-            products={products}
-            setProducts={setProducts}
-          />
+          <SelectedProductsList />
           <TouchableOpacity onPress={handleNavigateToAddProducts}>
             <Text style={styles.addProductsText}>
               + Adicionar Produtos

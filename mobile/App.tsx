@@ -10,6 +10,8 @@ import { StatusBar } from 'expo-status-bar';
 
 import Routes from './src/routes';
 
+import { SelectedProductsProvider } from './src/hooks/selectedProducts';
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     Roboto_300Light,
@@ -24,7 +26,10 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <Routes />
+      
+      <SelectedProductsProvider>
+        <Routes />
+      </SelectedProductsProvider>
     </>
   );
 };

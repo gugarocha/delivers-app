@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/core';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
+import { useSelectedProducts } from '../../hooks/selectedProducts';
 import { OrdersProps } from '../../utils/types';
 
 import { styles } from './styles';
@@ -13,9 +14,13 @@ interface Props {
 };
 
 export function OrderCard({ data }: Props) {
+  const { setSelectedProducts } = useSelectedProducts();
+
   const navigation = useNavigation();
 
   function handleEditOrder() {
+    setSelectedProducts(data.products);
+    
     navigation.navigate('OrderCreate', { selectedOrder: data });
   };
 

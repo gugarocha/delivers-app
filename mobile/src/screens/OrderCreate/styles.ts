@@ -10,10 +10,6 @@ export const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'space-between',
   },
-  formContainer: {
-    marginVertical: 30,
-    paddingHorizontal: 8,
-  },
   label: {
     marginTop: 30,
     marginBottom: 5,

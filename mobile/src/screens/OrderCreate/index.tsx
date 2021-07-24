@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useRoute } from '@react-navigation/core';
+import { useRoute, useNavigation } from '@react-navigation/core';
 import {
   ScrollView,
   View,
@@ -32,7 +32,13 @@ export default function OrderCreate() {
   const [valueToReceive, setValueToReceive] = useState(selectedOrder.valueToReceive as string);
   const [delivered, setDelivered] = useState(selectedOrder.delivered ? 'Sim' : 'Não');
 
-  function handleChangeTextInput(value: string) {
+  const navigation = useNavigation();
+
+  function handleNavigateToAddProducts() {
+    navigation.navigate('AddProducts', { products });
+  };
+
+  function handleChangeValueToReceive(value: string) {
     let maskedValue = value
       .replace(/\D/g, '')
       .replace(/(\d)(\d{2})$/, '$1,$2')
@@ -65,7 +71,7 @@ export default function OrderCreate() {
             products={products}
             setProducts={setProducts}
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleNavigateToAddProducts}>
             <Text style={styles.addProductsText}>
               + Adicionar Produtos
             </Text>
@@ -90,7 +96,7 @@ export default function OrderCreate() {
                 <TextInput
                   style={styles.valueToReceiveInput}
                   value={valueToReceive}
-                  onChangeText={handleChangeTextInput}
+                  onChangeText={handleChangeValueToReceive}
                   placeholder='0,00'
                   keyboardType='number-pad'
                 />

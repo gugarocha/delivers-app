@@ -14,13 +14,12 @@ import { SelectedProductsList } from '../../components/SelectedProductsList';
 import { CheckBoxGroup } from '../../components/CheckBoxGroup';
 import { ActionButton } from '../../components/ActionButton';
 
-import { useSelectedProducts } from '../../hooks/selectedProducts';
 import { OrdersProps } from '../../utils/types';
 
 import { styles } from './styles';
 
 interface Params {
-  selectedOrder: OrdersProps
+  selectedOrder: OrdersProps;
 };
 
 export default function OrderCreate() {

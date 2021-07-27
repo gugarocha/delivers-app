@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Text, TextInput } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
-import { ActionModal } from '../ActionModal';
+import { SetAmountModal } from '../SetAmountModal';
 
 import { useSelectedProducts } from '../../hooks/selectedProducts';
 import { OrderProductsProps } from '../../utils/types';
@@ -21,26 +21,6 @@ export function SelectedProductsList() {
     setShowModal(false);
   };
 
-  function handleModalConfirmButton() {
-    const updatedProducts = selectedProducts.map(product => {
-      if (product.id === selectedProduct.id) {
-        return selectedProduct;
-      };
-      return product;
-    });
-
-    selectedProduct.productAmount === 0
-      ? handleRemoveProduct(selectedProduct.id)
-      : setSelectedProducts(updatedProducts);
-
-    closeModal();
-  };
-
-  function handleChangeAmount(value: string) {
-    const newAmount = Number(value.replace(/\D/g, ''));
-    setSelectedProduct({ ...selectedProduct, productAmount: newAmount });
-  };
-
   function handleSelectProduct(product: OrderProductsProps) {
     setShowModal(true);
 
@@ -55,25 +35,11 @@ export function SelectedProductsList() {
 
   return (
     <>
-      <ActionModal
-        title='Alterar Quantidade'
-        isVisible={showModal}
-        cancelButtonAction={closeModal}
-        confirmButtonAction={handleModalConfirmButton}
-      >
-        <View style={styles.modalContainer}>
-          <TextInput
-            style={styles.modalInput}
-            onChangeText={handleChangeAmount}
-            maxLength={3}
-            keyboardType='number-pad'
-            autoFocus
-          />
-          <Text style={styles.modalText}>
-            x {selectedProduct.product}
-          </Text>
-        </View>
-      </ActionModal>
+      <SetAmountModal
+        modalVisible={showModal}
+        closeModal={closeModal}
+        selectedProduct={selectedProduct}
+      />
 
       {selectedProducts.length === 0
         ? <Text style={styles.emptyListText}>Nenhum produto selecionado</Text>

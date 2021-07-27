@@ -1,6 +1,13 @@
-export type OrderProductsProps = {
+export type ProductProps = {
   id: number;
   categoryId: number;
+  name: string;
+  active: boolean;
+};
+
+export type OrderProductsProps = {
+  id: number;
+  categoryId?: number;
   product: string;
   productAmount: number;
 };

@@ -25,11 +25,13 @@ export default function OrdersRoute() {
   function handleNavigateToOrderCreate() {
     setSelectedProducts([] as OrderProductsProps[]);
 
-    navigation.navigate('OrderCreate', { selectedOrder: {
-      client: '',
-      payment: 'Pendente',
-      delivered: false,
-    } as OrdersProps });
+    navigation.navigate('OrderCreate', {
+      selectedOrder: {
+        client: '',
+        payment: 'Pendente',
+        delivered: false,
+      } as OrdersProps
+    });
   };
 
   const data: OrdersProps[] = [

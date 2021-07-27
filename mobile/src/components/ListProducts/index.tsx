@@ -3,13 +3,16 @@ import { SectionList, Text } from 'react-native';
 
 import { Product } from '../Product';
 
+import { ProductProps } from '../../utils/types';
+
 import { styles } from './styles';
 
 interface Props {
+  onSelectProduct: (product: ProductProps) => void;
   ListHeaderComponent: React.ComponentType;
 };
 
-export function ListProducts({ ListHeaderComponent }: Props) {
+export function ListProducts({ onSelectProduct, ListHeaderComponent }: Props) {
   const allProducts = [
     {
       category: 'Sacarias',
@@ -97,7 +100,7 @@ export function ListProducts({ ListHeaderComponent }: Props) {
       renderItem={({ item }) => (
         <Product
           product={item}
-          onPress={() => {}}
+          onPress={() => onSelectProduct(item)}
         />
       )}
       renderSectionHeader={({ section: { category } }) => (

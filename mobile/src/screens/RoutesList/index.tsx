@@ -20,7 +20,7 @@ import { NewRouteCard } from '../../components/NewRouteCard';
 import { styles } from './styles';
 import { captalize } from '../../utils/captalize';
 
-export default function Home() {
+export default function RoutesList() {
   const [modalVisible, setModalVisible] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [date, setDate] = useState<Date>();

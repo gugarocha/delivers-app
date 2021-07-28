@@ -27,6 +27,7 @@ export default function OrdersRoute() {
 
     navigation.navigate('OrderCreate', {
       selectedOrder: {
+        routeId: 1,
         client: '',
         payment: 'Pendente',
         delivered: false,
@@ -37,6 +38,7 @@ export default function OrdersRoute() {
   const data: OrdersProps[] = [
     {
       id: 3,
+      routeId: 1,
       client: "Sicrano",
       payment: 'Receber',
       valueToReceive: "350,00",
@@ -70,6 +72,7 @@ export default function OrdersRoute() {
     },
     {
       id: 4,
+      routeId: 1,
       client: "Sicrano",
       payment: 'Ok',
       delivered: true,
@@ -129,18 +132,16 @@ export default function OrdersRoute() {
         </View>
       </TouchableWithoutFeedback>
 
-      <View style={styles.contentContainer}>
-        <OrdersList
-          data={data}
-          ListHeaderComponent={() => <OrdersStatusTitle delivered={false} />}
-          ListFooterComponent={() =>
-            <OrdersList
-              data={data}
-              ListHeaderComponent={() => <OrdersStatusTitle delivered={true} />}
-            />
-          }
-        />
-      </View>
+      <OrdersList
+        data={data}
+        ListHeaderComponent={() => <OrdersStatusTitle delivered={false} />}
+        ListFooterComponent={() =>
+          <OrdersList
+            data={data}
+            ListHeaderComponent={() => <OrdersStatusTitle delivered={true} />}
+          />
+        }
+      />
     </View>
   );
 };

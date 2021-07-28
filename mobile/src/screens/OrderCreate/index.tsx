@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 
 import { Header } from '../../components/Header';
 import { FormContainer } from '../../components/FormContainer';
@@ -25,12 +26,12 @@ interface Params {
 export default function OrderCreate() {
   const route = useRoute();
   const { selectedOrder } = route.params as Params;
-  
+
   const [clientName, setClientName] = useState(selectedOrder.client);
   const [payment, setPayment] = useState(selectedOrder.payment);
   const [valueToReceive, setValueToReceive] = useState(selectedOrder.valueToReceive as string);
   const [delivered, setDelivered] = useState(selectedOrder.delivered ? 'Sim' : 'Não');
-  
+
   const navigation = useNavigation();
 
   function handleNavigateToAddProducts() {
@@ -48,7 +49,13 @@ export default function OrderCreate() {
 
   return (
     <View style={styles.container}>
-      <Header title='Pedido' />
+      <Header title='Pedido'>
+        {!selectedOrder.routeId && (
+          <TouchableOpacity>
+            <Feather name='paperclip' size={24} color='#FFF' />
+          </TouchableOpacity>
+        )}
+      </Header>
 
       <ScrollView contentContainerStyle={styles.scrollContentContainer}>
         <FormContainer>

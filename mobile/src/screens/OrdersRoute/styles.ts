@@ -29,9 +29,4 @@ export const styles = StyleSheet.create({
     width: 0.5,
     backgroundColor: theme.colors.gray,
   },
-  contentContainer: {
-    flex: 1,
-    paddingTop: 2,
-    paddingHorizontal: 12,
-  }
 });

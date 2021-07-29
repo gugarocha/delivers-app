@@ -113,7 +113,7 @@ export default function OrderCreate() {
           <CheckBoxGroup
             values={['Não', 'Sim']}
             selectedValue={delivered}
-            setSelectedValue={setDelivered as (value: string) => void}
+            setSelectedValue={setDelivered}
           />
         </FormContainer>
 

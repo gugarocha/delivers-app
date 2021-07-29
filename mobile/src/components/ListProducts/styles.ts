@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     marginHorizontal: 12,
-    marginVertical: 10,
+    marginTop: 10,
+    marginBottom: 5,
   },
   contentContainer: {
     paddingVertical: 10,

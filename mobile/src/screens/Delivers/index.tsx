@@ -7,7 +7,8 @@ import { Header } from '../../components/Header';
 import { OrdersList } from '../../components/OrdersList';
 import { OrdersStatusTitle } from '../../components/OrdersStatusTitle';
 
-import { OrdersProps } from '../../utils/types';
+import { useSelectedProducts } from '../../hooks/selectedProducts';
+import { OrderProductsProps, OrdersProps } from '../../utils/types';
 
 import { styles } from './styles';
 
@@ -90,7 +91,11 @@ export default function Delivers() {
 
   const navigation = useNavigation();
 
+  const { setSelectedProducts } = useSelectedProducts();
+
   function handleNavigateToOrderCreate() {
+    setSelectedProducts([] as OrderProductsProps[]);
+
     navigation.navigate('OrderCreate', {
       selectedOrder: {
         client: '',

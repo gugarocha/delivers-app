@@ -109,6 +109,7 @@ export function ListProducts({ onSelectProduct, ListHeaderComponent }: Props) {
         </Text>
       )}
       ListHeaderComponent={() => <ListHeaderComponent />}
+      showsVerticalScrollIndicator={false}
     />
   );
 };

@@ -5,12 +5,14 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Text,
+  ScrollView
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 import { Header } from '../../components/Header';
 import { OrdersList } from '../../components/OrdersList';
 import { OrdersStatusTitle } from '../../components/OrdersStatusTitle';
+import { RouteSummary } from '../../components/RouteSummary';
 
 import { useSelectedProducts } from '../../hooks/selectedProducts';
 import { OrderProductsProps, OrdersProps } from '../../utils/types';
@@ -132,16 +134,20 @@ export default function OrdersRoute() {
         </View>
       </TouchableWithoutFeedback>
 
-      <OrdersList
-        data={data}
-        ListHeaderComponent={() => <OrdersStatusTitle delivered={false} />}
-        ListFooterComponent={() =>
-          <OrdersList
-            data={data}
-            ListHeaderComponent={() => <OrdersStatusTitle delivered={true} />}
-          />
-        }
-      />
+      <ScrollView horizontal pagingEnabled>
+        <OrdersList
+          data={data}
+          ListHeaderComponent={() => <OrdersStatusTitle delivered={false} />}
+          ListFooterComponent={() => (
+            <OrdersList
+              data={data}
+              ListHeaderComponent={() => <OrdersStatusTitle delivered={true} />}
+            />
+          )}
+        />
+
+        <RouteSummary />
+      </ScrollView>
     </View>
   );
 };

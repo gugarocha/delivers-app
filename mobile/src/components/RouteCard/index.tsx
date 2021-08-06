@@ -8,7 +8,6 @@ import { formatDate } from '../../utils/formatDate';
 
 import { styles } from './styles';
 
-
 interface Props {
   data: RouteProps;
 };

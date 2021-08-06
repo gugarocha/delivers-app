@@ -14,8 +14,16 @@ interface Category {
 export default {
   async index(req: Request, res: Response) {
     const routes = await connection('routes')
-      .select('*')
-      .where('finished', '=', false);
+      .select({
+        id: 'routes.id',
+        name: 'routes.name',
+        date: 'routes.date',
+        totalDelivers: connection.count('orders.id')
+      })
+      .innerJoin('orders', 'routes.id', 'orders.route_id')
+      .groupBy('routes.id')
+      .orderBy('routes.date')
+      .where('routes.finished', '=', false);
 
     return res.json(routes);
   },

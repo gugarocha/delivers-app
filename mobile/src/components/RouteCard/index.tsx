@@ -3,18 +3,17 @@ import { useNavigation } from '@react-navigation/core';
 import { Text, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
+import { RouteProps } from '../../utils/types';
+import { formatDate } from '../../utils/formatDate';
+
 import { styles } from './styles';
 
-interface RouteProps {
-  data: {
-    id: number | undefined;
-    name?: string;
-    date?: string;
-    totalDelivers?: number;
-  };
+
+interface Props {
+  data: RouteProps;
 };
 
-export const RouteCard = ({ data }: RouteProps) => {
+export const RouteCard = ({ data }: Props) => {
   const navigation = useNavigation();
 
   function handleOpenOrders() {
@@ -30,7 +29,7 @@ export const RouteCard = ({ data }: RouteProps) => {
 
       <View style={styles.infoContainer}>
         <Text style={styles.label}>Data da rota</Text>
-        <Text>{data.date}</Text>
+        <Text>{formatDate(data.date)}</Text>
       </View>
 
       <View style={styles.infoContainer}>

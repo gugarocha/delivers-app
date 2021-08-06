@@ -3,6 +3,8 @@ import { useNavigation } from '@react-navigation/core';
 import { Text, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
+import { formatDate } from '../../utils/formatDate';
+
 import { styles } from './styles';
 
 interface RouteProps {
@@ -30,7 +32,7 @@ export const RouteCard = ({ data }: RouteProps) => {
 
       <View style={styles.infoContainer}>
         <Text style={styles.label}>Data da rota</Text>
-        <Text>{data.date}</Text>
+        <Text>{formatDate(data.date)}</Text>
       </View>
 
       <View style={styles.infoContainer}>

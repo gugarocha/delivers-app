@@ -21,3 +21,10 @@ export type OrdersProps = {
   delivered: boolean;
   products: OrderProductsProps[];
 };
+
+export type RouteProps = {
+  id: number;
+  name: string;
+  date: string;
+  totalDelivers: number;
+};

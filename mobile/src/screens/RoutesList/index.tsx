@@ -17,29 +17,18 @@ import { ActionModal } from '../../components/ActionModal';
 import { RouteCard } from '../../components/RouteCard';
 import { NewRouteCard } from '../../components/NewRouteCard';
 
+import { useRoutes } from '../../hooks/useRoutes';
+
 import { styles } from './styles';
 import { captalize } from '../../utils/captalize';
 
 export default function RoutesList() {
+  const [routes] = useRoutes();
+
   const [modalVisible, setModalVisible] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [date, setDate] = useState<Date>();
   const [routeName, setRouteName] = useState<string>();
-
-  const data = [
-    {
-      id: 1,
-      name: "Sexta-Feira",
-      date: "2021-02-05",
-      totalDelivers: 20
-    },
-    {
-      id: 2,
-      name: "Sexta-Feira",
-      date: "2021-02-05",
-      totalDelivers: 20
-    },
-  ];
 
   const toggleModalVisible = () => setModalVisible(!modalVisible);
 
@@ -99,7 +88,7 @@ export default function RoutesList() {
 
       <View style={styles.contentContainer}>
         <FlatList
-          data={[...data, { id: undefined }]}
+          data={[...routes, { id: undefined }]}
           keyExtractor={item => String(item.id)}
           renderItem={({ item }) =>
             item.id

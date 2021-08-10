@@ -16,7 +16,9 @@ export const RouteCard = ({ data }: Props) => {
   const navigation = useNavigation();
 
   function handleOpenOrders() {
-    navigation.navigate('OrdersRoute');
+    navigation.navigate('OrdersRoute', {
+      selectedRoute: data
+    });
   };
 
   return (

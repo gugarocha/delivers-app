@@ -1,47 +1,23 @@
 import React, { useState } from 'react';
-import {
-  FlatList,
-  Platform,
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-} from "react-native";
-import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
+import { FlatList, View, TouchableOpacity, } from "react-native";
 import { Feather } from '@expo/vector-icons';
-import { format } from 'date-fns';
-import pt from 'date-fns/locale/pt-BR';
 
 import { Header } from '../../components/Header';
-import { ActionModal } from '../../components/ActionModal';
+import { RouteDataModal } from '../../components/RouteDataModal';
 import { RouteCard } from '../../components/RouteCard';
 import { NewRouteCard } from '../../components/NewRouteCard';
 
 import { useRoutes } from '../../hooks/useRoutes';
 
 import { styles } from './styles';
-import { captalize } from '../../utils/captalize';
 
 export default function RoutesList() {
-  const [routes] = useRoutes();
+  const { routes } = useRoutes();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [date, setDate] = useState<Date>();
-  const [routeName, setRouteName] = useState<string>();
 
-  const toggleModalVisible = () => setModalVisible(!modalVisible);
-
-  const handleChangeDate = (event: Event, selectedDate: Date | undefined) => {
-    if (Platform.OS === 'android') {
-      setShowDatePicker(oldState => !oldState);
-    };
-
-    if (selectedDate) {
-      setDate(selectedDate);
-      setRouteName(captalize(format(selectedDate, 'eeee', { locale: pt })));
-      setShowDatePicker(false);
-    };
+  function closeModal() {
+    setModalVisible(false);
   };
 
   return (
@@ -52,48 +28,20 @@ export default function RoutesList() {
         </TouchableOpacity>
       </Header>
 
-      <ActionModal
-        isVisible={modalVisible}
-        title='Nova Rota'
-        confirmButtonAction={toggleModalVisible}
-        cancelButtonAction={toggleModalVisible}
-      >
-        {showDatePicker &&
-          <DateTimePicker
-            value={date || new Date()}
-            onChange={handleChangeDate}
-          />
-        }
+      <RouteDataModal
+        modalVisible={modalVisible}
+        closeModal={closeModal}
+      />
 
-        <View style={styles.modalRowWrapper}>
-          <Text style={styles.modalLabel}>Data:</Text>
-          <Feather name='calendar' size={16} style={styles.calendarIcon} />
-          <TouchableOpacity
-            style={styles.modalInput}
-            onPress={() => setShowDatePicker(true)}
-          >
-            <Text>{date && format(date, 'dd/MM/yyyy')}</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.modalRowWrapper}>
-          <Text style={styles.modalLabel}>Rota:</Text>
-          <TextInput
-            style={styles.modalInput}
-            value={routeName}
-            onChangeText={setRouteName}
-          />
-        </View>
-      </ActionModal>
-
-      <View style={styles.contentContainer}>
+      <View style={styles.container}>
         <FlatList
           data={[...routes, { id: undefined }]}
           keyExtractor={item => String(item.id)}
+          contentContainerStyle={styles.contentContainer}
           renderItem={({ item }) =>
             item.id
               ? <RouteCard data={item} />
-              : <NewRouteCard openModal={toggleModalVisible} />
+              : <NewRouteCard openModal={() => setModalVisible(true)} />
           }
           numColumns={2}
           columnWrapperStyle={styles.cardsContainer}

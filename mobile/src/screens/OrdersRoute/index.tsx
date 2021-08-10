@@ -1,5 +1,5 @@
-import React from 'react';
-import { useNavigation } from '@react-navigation/core';
+import React, { useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/core';
 import {
   View,
   TouchableOpacity,
@@ -10,19 +10,38 @@ import {
 import { Feather } from '@expo/vector-icons';
 
 import { Header } from '../../components/Header';
+import { RouteDataModal } from '../../components/RouteDataModal';
 import { OrdersList } from '../../components/OrdersList';
 import { OrdersStatusTitle } from '../../components/OrdersStatusTitle';
 import { RouteSummary } from '../../components/RouteSummary';
 
 import { useSelectedProducts } from '../../hooks/selectedProducts';
-import { OrderProductsProps, OrdersProps } from '../../utils/types';
+import { OrderProductsProps, OrdersProps, RouteProps } from '../../utils/types';
+import { formatDate } from '../../utils/formatDate';
 
 import { styles } from './styles';
 
-export default function OrdersRoute() {
-  const navigation = useNavigation();
+interface Params {
+  selectedRoute: RouteProps;
+};
 
+export default function OrdersRoute() {
   const { setSelectedProducts } = useSelectedProducts();
+
+  const navigation = useNavigation();
+  const route = useRoute();
+  const { selectedRoute } = route.params as Params;
+
+  const [showModal, setShowModal] = useState(false);
+  const [routeInfo, setRouteInfo] = useState({
+    routeId: selectedRoute.id,
+    date: new Date(selectedRoute.date),
+    name: selectedRoute.name
+  });
+
+  function closeModal() {
+    setShowModal(false);
+  };
 
   function handleNavigateToOrderCreate() {
     setSelectedProducts([] as OrderProductsProps[]);
@@ -110,14 +129,21 @@ export default function OrdersRoute() {
         </TouchableOpacity>
       </Header>
 
-      <TouchableWithoutFeedback>
+      <RouteDataModal
+        modalVisible={showModal}
+        closeModal={closeModal}
+        selectedRoute={routeInfo}
+        setRouteInfo={setRouteInfo}
+      />
+
+      <TouchableWithoutFeedback onPress={() => setShowModal(true)}>
         <View style={styles.infoRouteContainer}>
           <View style={styles.infoRouteBlock}>
             <Text style={styles.infoRouteLabel}>
               Rota
             </Text>
             <Text style={styles.infoRouteValue}>
-              Sexta-feira
+              {routeInfo.name}
             </Text>
           </View>
 
@@ -128,7 +154,7 @@ export default function OrdersRoute() {
               Data
             </Text>
             <Text style={styles.infoRouteValue}>
-              09/07/2021
+              {formatDate(routeInfo.date)}
             </Text>
           </View>
         </View>

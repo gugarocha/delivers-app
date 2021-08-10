@@ -20,7 +20,7 @@ export default {
         date: 'routes.date',
         totalDelivers: connection.count('orders.id')
       })
-      .innerJoin('orders', 'routes.id', 'orders.route_id')
+      .fullOuterJoin('orders', 'routes.id', 'orders.route_id')
       .groupBy('routes.id')
       .orderBy('routes.date')
       .where('routes.finished', '=', false);
@@ -102,12 +102,17 @@ export default {
     const { name, date } = req.body;
 
     try {
-      await connection('routes').insert({
-        name,
-        date
-      });
+      const routeId = await connection('routes')
+        .returning('id')
+        .insert({
+          name,
+          date
+        });
 
-      return res.status(201).json({ message: 'Route created successfully' });
+      return res.status(201).json({
+        message: 'Route created successfully',
+        id: routeId
+      });
 
     } catch (err) {
       console.log(err);

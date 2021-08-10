@@ -1,20 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/core';
 
-import { getRoutes } from '../services/Routes';
+import { getRoutes, newRoute, editRouteInfo } from '../services/Routes';
 import { RouteProps } from '../utils/types';
 
 export function useRoutes() {
   const [routes, setRoutes] = useState<RouteProps[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchData() {
-      const data = await getRoutes();
+  useFocusEffect(
+    useCallback(() => {
+      async function fetchData() {
+        const data = await getRoutes();
 
-      setRoutes(data);
-    };
+        setRoutes(data);
+        setLoading(false);
+      };
 
-    fetchData();
-  }, []);
+      fetchData();
+    }, [])
+  );
 
-  return [routes];
+  return {
+    routes,
+    loading,
+    newRoute,
+    editRouteInfo,
+  };
 };

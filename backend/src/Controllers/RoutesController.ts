@@ -8,7 +8,7 @@ import fetchProducts from "../utils/fetchProducts";
 interface Category {
   category: string;
   itemsCategoryTotal: number;
-  products: Product[];
+  data: Product[];
 };
 
 export default {
@@ -71,23 +71,25 @@ export default {
     let categories: Category[] = [];
 
     products.forEach(product => {
+      product.productAmount = Number(product.productAmount);
+
       const index = product.categoryId - 1;
 
       if (categories[index] === undefined) {
         categories[index] = {
           category: CategoryEnum[product.categoryId],
           itemsCategoryTotal: 0,
-          products: []
+          data: []
         };
       };
 
-      categories[index].itemsCategoryTotal += Number(product.productAmount);
-      categories[index].products.push(product);
+      categories[index].itemsCategoryTotal += product.productAmount;
+      categories[index].data.push(product);
     });
 
     const itemsTotal = products
-      .map(product => Number(product.productAmount))
-      .reduce((sum, value) => sum + value);
+      .map(product => product.productAmount)
+      .reduce((sum, value) => sum + value, 0);
 
     const summary = {
       ordersTotal: ordersIds.length,

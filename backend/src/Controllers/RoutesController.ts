@@ -69,19 +69,18 @@ export default {
       .whereIn('order_id', ordersIds);
 
     let categories: Category[] = [];
+    for (let i = 0; i < 3; i++) {
+      categories[i] = {
+        category: CategoryEnum[i + 1],
+        itemsCategoryTotal: 0,
+        data: []
+      };
+    };
 
     products.forEach(product => {
       product.productAmount = Number(product.productAmount);
 
       const index = product.categoryId - 1;
-
-      if (categories[index] === undefined) {
-        categories[index] = {
-          category: CategoryEnum[product.categoryId],
-          itemsCategoryTotal: 0,
-          data: []
-        };
-      };
 
       categories[index].itemsCategoryTotal += product.productAmount;
       categories[index].data.push(product);

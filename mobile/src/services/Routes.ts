@@ -1,6 +1,10 @@
 import api from "./api";
 
-import { RouteProps } from "../utils/types";
+import {
+  OrdersProps,
+  RouteProps,
+  SummaryProps
+} from "../utils/types";
 
 export async function getRoutes() {
   const response = await api.get('/routes');
@@ -43,4 +47,20 @@ export async function editRouteInfo({ routeId, date, name }: EditRouteProps) {
   } catch (error) {
     throw new Error(error);
   };
+};
+
+export async function getOrders(routeId: number) {
+  const response = await api.get(`/routes/${routeId}/orders`);
+
+  const orders: OrdersProps[] = response.data;
+
+  return orders;
+};
+
+export async function getSummary(routeId: number) {
+  const response = await api.get(`/routes/${routeId}/summary`);
+
+  const summary: SummaryProps = response.data;
+
+  return summary;
 };

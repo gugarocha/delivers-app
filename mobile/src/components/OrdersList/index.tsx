@@ -1,26 +1,53 @@
-import React from 'react';
-import { FlatList, ListRenderItem } from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, Text } from 'react-native';
+
+import { OrderCard } from '../OrderCard';
+import { OrdersStatusTitle } from '../OrdersStatusTitle';
 
 import { OrdersProps } from '../../utils/types';
-import { OrderCard } from '../OrderCard';
 
 import { styles } from './styles';
 
 interface Props {
   data: OrdersProps[];
-  ListHeaderComponent?: ListRenderItem<boolean>
-  ListFooterComponent?: ListRenderItem<React.ReactNode>
 };
 
-export function OrdersList({ data, ...rest }: Props) {
+export function OrdersList({ data }: Props) {
+  const [notDeliveredOrders, setNotDeliveredOrders] = useState(
+    data.filter(order => !order.delivered)
+  );
+  const [deliveredOrders, setDeliveredOrders] = useState(
+    data.filter(order => order.delivered)
+  );
+
   return (
     <FlatList
-      data={data}
-      contentContainerStyle={styles.contentContainer}
-      renderItem={({ item }) => <OrderCard data={item} />}
+      data={notDeliveredOrders}
       keyExtractor={item => String(item.id)}
+      contentContainerStyle={styles.contentContainer}
       showsVerticalScrollIndicator={false}
-      {...rest}
+      ListEmptyComponent={
+        <Text style={styles.emptyListText}>
+          Nenhum pedido para ser entregue
+        </Text>
+      }
+      renderItem={({ item }) => <OrderCard data={item} />}
+      ListHeaderComponent={<OrdersStatusTitle delivered={false} />}
+      ListFooterComponent={() => (
+        <FlatList
+          data={deliveredOrders}
+          keyExtractor={item => String(item.id)}
+          contentContainerStyle={styles.contentContainer}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={
+            <Text style={styles.emptyListText}>
+              Nenhum pedido entregue
+            </Text>
+          }
+          renderItem={({ item }) => <OrderCard data={item} />}
+          ListHeaderComponent={<OrdersStatusTitle delivered />}
+        />
+      )}
     />
   );
 };

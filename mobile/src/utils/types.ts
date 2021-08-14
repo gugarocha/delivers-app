@@ -22,6 +22,18 @@ export type OrdersProps = {
   products: OrderProductsProps[];
 };
 
+export type CategoryProps = {
+  category: string;
+  itemsCategoryTotal: number;
+  data: OrderProductsProps[];
+};
+
+export type SummaryProps = {
+  ordersTotal: number;
+  itemsTotal: number;
+  categories: CategoryProps[];
+};
+
 export type RouteProps = {
   id: number;
   name: string;

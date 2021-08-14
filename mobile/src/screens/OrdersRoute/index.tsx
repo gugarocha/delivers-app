@@ -11,11 +11,13 @@ import { Feather } from '@expo/vector-icons';
 
 import { Header } from '../../components/Header';
 import { RouteDataModal } from '../../components/RouteDataModal';
+import { SpinLoading } from '../../components/SpinLoading';
 import { OrdersList } from '../../components/OrdersList';
-import { OrdersStatusTitle } from '../../components/OrdersStatusTitle';
 import { RouteSummary } from '../../components/RouteSummary';
 
 import { useSelectedProducts } from '../../hooks/selectedProducts';
+import { useOrdersRoute } from '../../hooks/useOrdersRoute';
+
 import { OrderProductsProps, OrdersProps, RouteProps } from '../../utils/types';
 import { formatDate } from '../../utils/formatDate';
 
@@ -39,6 +41,8 @@ export default function OrdersRoute() {
     name: selectedRoute.name
   });
 
+  const { loading, orders, summary } = useOrdersRoute(routeInfo.routeId);
+
   function closeModal() {
     setShowModal(false);
   };
@@ -55,64 +59,6 @@ export default function OrdersRoute() {
       } as OrdersProps
     });
   };
-
-  const data: OrdersProps[] = [
-    {
-      id: 3,
-      routeId: 1,
-      client: "Sicrano",
-      payment: 'Receber',
-      valueToReceive: "350,00",
-      delivered: false,
-      products: [
-        {
-          id: 1,
-          product: "Milho Saco",
-          categoryId: 1,
-          productAmount: 1
-        },
-        {
-          id: 2,
-          product: "Poim Saco",
-          categoryId: 1,
-          productAmount: 2
-        },
-        {
-          id: 4,
-          product: "Rezido",
-          categoryId: 1,
-          productAmount: 1
-        },
-        {
-          id: 3,
-          product: "Água Norte",
-          categoryId: 2,
-          productAmount: 3
-        }
-      ]
-    },
-    {
-      id: 4,
-      routeId: 1,
-      client: "Sicrano",
-      payment: 'Ok',
-      delivered: true,
-      products: [
-        {
-          id: 1,
-          product: "Milho Saco",
-          categoryId: 1,
-          productAmount: 1
-        },
-        {
-          id: 4,
-          product: "Rezido",
-          categoryId: 1,
-          productAmount: 2
-        },
-      ]
-    }
-  ];
 
   return (
     <View style={styles.container}>
@@ -160,20 +106,20 @@ export default function OrdersRoute() {
         </View>
       </TouchableWithoutFeedback>
 
-      <ScrollView horizontal pagingEnabled>
-        <OrdersList
-          data={data}
-          ListHeaderComponent={() => <OrdersStatusTitle delivered={false} />}
-          ListFooterComponent={() => (
-            <OrdersList
-              data={data}
-              ListHeaderComponent={() => <OrdersStatusTitle delivered={true} />}
-            />
-          )}
-        />
-
-        <RouteSummary />
-      </ScrollView>
+      {
+        loading
+          ? <SpinLoading />
+          : (
+            <ScrollView
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+            >
+              <OrdersList data={orders} />
+              <RouteSummary data={summary} />
+            </ScrollView>
+          )
+      }
     </View>
   );
 };

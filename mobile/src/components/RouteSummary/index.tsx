@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, SectionList, Text } from 'react-native';
 
+import { SummaryProps } from '../../utils/types';
+
 import { styles } from './styles';
 
 interface ListHeaderProps {
@@ -52,98 +54,32 @@ function SectionHeader({ category, itemsCategoryTotal }: SectionHeaderProps) {
   );
 };
 
-export function RouteSummary() {
-  const routeSummary = {
-    ordersTotal: 4,
-    itemsTotal: 17,
-    categories: [
-      {
-        category: "Sacarias",
-        itemsCategoryTotal: 8,
-        data: [
-          {
-            id: 1,
-            product: "Milho Saco",
-            categoryId: 1,
-            productAmount: "2"
-          },
-          {
-            id: 2,
-            product: "Poim Saco",
-            categoryId: 1,
-            productAmount: "1"
-          },
-          {
-            id: 4,
-            product: "Rezido",
-            categoryId: 1,
-            productAmount: "2"
-          },
-          {
-            id: 5,
-            product: "Soja Saco",
-            categoryId: 1,
-            productAmount: "3"
-          },
-        ]
-      },
-      {
-        category: "Águas",
-        itemsCategoryTotal: 3,
-        data: [
-          {
-            id: 9,
-            product: "Água Norte",
-            categoryId: 2,
-            productAmount: "2"
-          },
-          {
-            id: 10,
-            product: "Água Azul",
-            categoryId: 2,
-            productAmount: "1"
-          }
-        ]
-      },
-      {
-        category: "Mercadorias",
-        itemsCategoryTotal: 6,
-        data: [
-          {
-            id: 6,
-            product: "Volume",
-            categoryId: 3,
-            productAmount: "3"
-          },
-          {
-            id: 12,
-            product: "Sacola de mercadorias",
-            categoryId: 3,
-            productAmount: "3"
-          }
-        ]
-      }
-    ]
-  };
-
+interface RouteSummaryProps {
+  data: SummaryProps
+};
+export function RouteSummary({ data }: RouteSummaryProps) {
   return (
     <View style={styles.container}>
       <SectionList
-        sections={routeSummary.categories}
+        sections={data.categories}
         keyExtractor={item => String(item.id)}
         contentContainerStyle={styles.contentContainer}
         ListHeaderComponent={
           <ListHeader
-            ordersTotal={routeSummary.ordersTotal}
-            itemsTotal={routeSummary.itemsTotal}
+            ordersTotal={data.ordersTotal}
+            itemsTotal={data.itemsTotal}
           />
         }
-        renderSectionHeader={({ section: { category, itemsCategoryTotal } }) => (
-          <SectionHeader
-            category={category}
-            itemsCategoryTotal={itemsCategoryTotal}
-          />
-        )}
+        renderSectionHeader={({ section: { category, itemsCategoryTotal } }) =>
+          itemsCategoryTotal > 0
+            ? (
+              <SectionHeader
+                category={category}
+                itemsCategoryTotal={itemsCategoryTotal}
+              />
+            )
+            : <View />
+        }
         ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
         renderItem={({ item }) => (
           <Text style={styles.productItem}>

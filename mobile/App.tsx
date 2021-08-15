@@ -10,6 +10,7 @@ import { StatusBar } from 'expo-status-bar';
 
 import Routes from './src/routes';
 
+import { LoadingProvider } from './src/hooks/loading';
 import { SelectedProductsProvider } from './src/hooks/selectedProducts';
 
 export default function App() {
@@ -26,10 +27,12 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      
-      <SelectedProductsProvider>
-        <Routes />
-      </SelectedProductsProvider>
+
+      <LoadingProvider>
+        <SelectedProductsProvider>
+          <Routes />
+        </SelectedProductsProvider>
+      </LoadingProvider>
     </>
   );
 };

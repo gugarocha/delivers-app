@@ -11,7 +11,6 @@ import { Feather } from '@expo/vector-icons';
 
 import { Header } from '../../components/Header';
 import { RouteDataModal } from '../../components/RouteDataModal';
-import { SpinLoading } from '../../components/SpinLoading';
 import { OrdersList } from '../../components/OrdersList';
 import { RouteSummary } from '../../components/RouteSummary';
 
@@ -41,7 +40,7 @@ export default function OrdersRoute() {
     name: selectedRoute.name
   });
 
-  const { loading, orders, summary } = useOrdersRoute(routeInfo.routeId);
+  const { orders, summary } = useOrdersRoute(routeInfo.routeId);
 
   function closeModal() {
     setShowModal(false);
@@ -52,7 +51,7 @@ export default function OrdersRoute() {
 
     navigation.navigate('OrderCreate', {
       selectedOrder: {
-        routeId: 1,
+        routeId: routeInfo.routeId,
         client: '',
         payment: 'Pendente',
         delivered: false,
@@ -106,20 +105,14 @@ export default function OrdersRoute() {
         </View>
       </TouchableWithoutFeedback>
 
-      {
-        loading
-          ? <SpinLoading />
-          : (
-            <ScrollView
-              horizontal
-              pagingEnabled
-              showsHorizontalScrollIndicator={false}
-            >
-              <OrdersList data={orders} />
-              <RouteSummary data={summary} />
-            </ScrollView>
-          )
-      }
+      <ScrollView
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+      >
+        <OrdersList data={orders} />
+        <RouteSummary data={summary} />
+      </ScrollView>
     </View>
   );
 };

@@ -17,7 +17,7 @@ export type OrdersProps = {
   routeId?: number | null;
   client: string;
   payment: 'Pendente' | 'Ok' | 'Receber';
-  valueToReceive?: string | null;
+  valueToReceive?: number | string | null;
   delivered: boolean;
   products: OrderProductsProps[];
 };

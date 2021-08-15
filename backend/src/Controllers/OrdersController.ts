@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import connection from "../database/connection";
 
 interface Product {
-  productId: number;
+  id: number;
   productAmount: number;
 };
 
@@ -26,7 +26,7 @@ export default {
       const prods = products.map((product: Product) => {
         return {
           order_id: orderId[0],
-          product_id: product.productId,
+          product_id: product.id,
           product_amount: product.productAmount
         };
       });
@@ -69,7 +69,7 @@ export default {
       const prods = products.map((product: Product) => {
         return {
           order_id: id,
-          product_id: product.productId,
+          product_id: product.id,
           product_amount: product.productAmount
         };
       });
@@ -85,7 +85,7 @@ export default {
 
       console.log(error);
 
-      return res.json({ error: 'Unexpected error while update order' });
+      return res.status(400).json({ error: 'Unexpected error while update order' });
     };
   },
 

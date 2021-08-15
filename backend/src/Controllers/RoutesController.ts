@@ -34,6 +34,7 @@ export default {
     const orders: Order[] = await connection('orders')
       .select({
         id: 'id',
+        routeId: 'route_id',
         client: 'client',
         payment: 'payment',
         valueToReceive: 'value_to_receive',

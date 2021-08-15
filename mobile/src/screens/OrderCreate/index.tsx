@@ -15,6 +15,8 @@ import { SelectedProductsList } from '../../components/SelectedProductsList';
 import { CheckBoxGroup } from '../../components/CheckBoxGroup';
 import { ActionButton } from '../../components/ActionButton';
 
+import { useOrder } from '../../hooks/useOrder';
+import { useSelectedProducts } from '../../hooks/selectedProducts';
 import { OrdersProps } from '../../utils/types';
 
 import { styles } from './styles';
@@ -31,7 +33,9 @@ export default function OrderCreate() {
   const [payment, setPayment] = useState(selectedOrder.payment);
   const [valueToReceive, setValueToReceive] = useState(selectedOrder.valueToReceive as string);
   const [delivered, setDelivered] = useState(selectedOrder.delivered ? 'Sim' : 'Não');
+  const { selectedProducts } = useSelectedProducts();
 
+  const { updateOrder } = useOrder();
   const navigation = useNavigation();
 
   function handleNavigateToAddProducts() {
@@ -45,6 +49,34 @@ export default function OrderCreate() {
       .replace(/(?=(\d{3})+(\D))\B/g, '.');
 
     setValueToReceive(maskedValue);
+  };
+
+  function convertValueToReceiveToNumber(value: string) {
+    let sanitizedValue = value.replace(/\D/g, '');
+
+    return Number(sanitizedValue) / 100;
+  };
+
+  function handleCancelButton() {
+    navigation.goBack();
+  };
+
+  async function handleConfirmButton() {
+    const data: OrdersProps = {
+      id: selectedOrder.id,
+      routeId: selectedOrder.routeId || null,
+      client: clientName,
+      products: selectedProducts,
+      payment: payment,
+      valueToReceive: payment === 'Receber'
+        ? convertValueToReceiveToNumber(valueToReceive)
+        : null,
+      delivered: delivered === 'Sim',
+    };
+
+    await updateOrder(data);
+
+    navigation.goBack();
   };
 
   return (
@@ -119,11 +151,17 @@ export default function OrderCreate() {
 
         <View style={styles.footer}>
           <View style={styles.button}>
-            <ActionButton type='Cancelar' />
+            <ActionButton
+              type='Cancelar'
+              onPress={handleCancelButton}
+            />
           </View>
 
           <View style={styles.button}>
-            <ActionButton type='Confirmar' />
+            <ActionButton
+              type='Confirmar'
+              onPress={handleConfirmButton}
+            />
           </View>
         </View>
       </ScrollView>

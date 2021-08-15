@@ -5,6 +5,11 @@ export type ProductProps = {
   active: boolean;
 };
 
+export type ProductsCategoryProps = {
+  category: string;
+  data: ProductProps;
+};
+
 export type OrderProductsProps = {
   id: number;
   categoryId?: number;

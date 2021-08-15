@@ -1,7 +1,10 @@
 import React from 'react';
 import { View, SectionList, Text } from 'react-native';
 
+import { SpinLoading } from '../SpinLoading';
+
 import { SummaryProps } from '../../utils/types';
+import { useLoading } from '../../hooks/loading';
 
 import { styles } from './styles';
 
@@ -58,36 +61,43 @@ interface RouteSummaryProps {
   data: SummaryProps
 };
 export function RouteSummary({ data }: RouteSummaryProps) {
+  const { loading } = useLoading();
+
   return (
-    <View style={styles.container}>
-      <SectionList
-        sections={data.categories}
-        keyExtractor={item => String(item.id)}
-        contentContainerStyle={styles.contentContainer}
-        ListHeaderComponent={
-          <ListHeader
-            ordersTotal={data.ordersTotal}
-            itemsTotal={data.itemsTotal}
-          />
-        }
-        renderSectionHeader={({ section: { category, itemsCategoryTotal } }) =>
-          itemsCategoryTotal > 0
-            ? (
-              <SectionHeader
-                category={category}
-                itemsCategoryTotal={itemsCategoryTotal}
-              />
-            )
-            : <View />
-        }
-        ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
-        renderItem={({ item }) => (
-          <Text style={styles.productItem}>
-            {item.productAmount}  x  {item.product}
-          </Text>
-        )}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+    loading ? (
+      <View style={styles.container}>
+        <SpinLoading />
+      </View>
+    ) :
+      <View style={styles.container}>
+        <SectionList
+          sections={data.categories}
+          keyExtractor={item => String(item.id)}
+          contentContainerStyle={styles.contentContainer}
+          ListHeaderComponent={
+            <ListHeader
+              ordersTotal={data.ordersTotal}
+              itemsTotal={data.itemsTotal}
+            />
+          }
+          renderSectionHeader={({ section: { category, itemsCategoryTotal } }) =>
+            itemsCategoryTotal > 0
+              ? (
+                <SectionHeader
+                  category={category}
+                  itemsCategoryTotal={itemsCategoryTotal}
+                />
+              )
+              : <View />
+          }
+          ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
+          renderItem={({ item }) => (
+            <Text style={styles.productItem}>
+              {item.productAmount}  x  {item.product}
+            </Text>
+          )}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
   );
 };

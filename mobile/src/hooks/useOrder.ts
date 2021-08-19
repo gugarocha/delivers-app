@@ -1,7 +1,7 @@
 import { Alert } from "react-native";
 
 import { useLoading } from "./loading";
-import { editOrder } from '../services/Orders';
+import { editOrder, setDeliveredOrder } from '../services/Orders';
 
 import { OrdersProps } from "../utils/types";
 
@@ -20,7 +20,20 @@ export function useOrder() {
     };
   };
 
+  async function setToDelivered(orderId: number) {
+    setLoading(true);
+
+    try {
+      await setDeliveredOrder(orderId);
+    } catch {
+      Alert.alert('Erro ao definir o pedido como entregue');
+    } finally {
+      setLoading(false);
+    };
+  };
+
   return {
-    updateOrder
+    updateOrder,
+    setToDelivered
   };
 };

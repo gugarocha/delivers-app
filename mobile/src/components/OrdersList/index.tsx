@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { FlatList, Text, View } from 'react-native';
 
@@ -6,6 +6,7 @@ import { SpinLoading } from '../SpinLoading';
 import { OrderCard } from '../OrderCard';
 import { OrdersStatusTitle } from '../OrdersStatusTitle';
 
+import { useOrder } from '../../hooks/useOrder';
 import { useLoading } from '../../hooks/loading';
 import { OrdersProps } from '../../utils/types';
 
@@ -16,7 +17,9 @@ interface Props {
 };
 
 export function OrdersList({ data }: Props) {
+  const { setToDelivered } = useOrder();
   const { loading } = useLoading();
+
   const [notDeliveredOrders, setNotDeliveredOrders] = useState<OrdersProps[]>([]);
   const [deliveredOrders, setDeliveredOrders] = useState<OrdersProps[]>([]);
 
@@ -26,6 +29,13 @@ export function OrdersList({ data }: Props) {
       setDeliveredOrders(data.filter(order => order.delivered));
     }, [data])
   );
+
+  async function handleSetDelivered(order: OrdersProps) {
+    await setToDelivered(order.id);
+
+    setDeliveredOrders([...deliveredOrders, order]);
+    setNotDeliveredOrders(notDeliveredOrders.filter(item => item.id !== order.id));
+  };
 
   return (
     loading
@@ -44,7 +54,12 @@ export function OrdersList({ data }: Props) {
             Nenhum pedido para ser entregue
           </Text>
         }
-        renderItem={({ item }) => <OrderCard data={item} />}
+        renderItem={({ item }) =>
+          <OrderCard
+            data={item}
+            changeDeliverStatus={() => handleSetDelivered(item)}
+          />
+        }
         ListHeaderComponent={<OrdersStatusTitle delivered={false} />}
         ListFooterComponent={() => (
           <FlatList
@@ -57,7 +72,11 @@ export function OrdersList({ data }: Props) {
                 Nenhum pedido entregue
               </Text>
             }
-            renderItem={({ item }) => <OrderCard data={item} />}
+            renderItem={({ item }) =>
+              <OrderCard
+                data={item}
+              />
+            }
             ListHeaderComponent={<OrdersStatusTitle delivered />}
           />
         )}

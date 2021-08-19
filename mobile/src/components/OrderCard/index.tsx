@@ -11,16 +11,17 @@ import { theme } from '../../global/styles';
 
 interface Props {
   data: OrdersProps;
+  changeDeliverStatus?: () => Promise<void>;
 };
 
-export function OrderCard({ data }: Props) {
+export function OrderCard({ data, changeDeliverStatus }: Props) {
   const { setSelectedProducts } = useSelectedProducts();
 
   const navigation = useNavigation();
 
   function handleEditOrder() {
     setSelectedProducts(data.products);
-    
+
     navigation.navigate('OrderCreate', { selectedOrder: data });
   };
 
@@ -78,7 +79,10 @@ export function OrderCard({ data }: Props) {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={changeDeliverStatus}
+        >
           <Feather name='truck' size={25} color={theme.colors.gray} />
           <Text style={styles.buttonText}>
             Entregar{'\n'}Pedido

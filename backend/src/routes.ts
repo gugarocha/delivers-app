@@ -14,7 +14,7 @@ routes.put('/products/:id', ProductsController.update)
 
 routes.post('/orders', OrdersController.create);
 routes.put('/orders/:id', OrdersController.update);
-routes.put('/orders/:id/delivered', OrdersController.setDelivered);
+routes.put('/orders/:id/setDeliverStatus', OrdersController.setDeliverStatus);
 routes.delete('/orders/:id', OrdersController.delete);
 
 routes.get('/delivers', DeliversController.index);

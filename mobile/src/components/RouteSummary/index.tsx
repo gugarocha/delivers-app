@@ -3,8 +3,8 @@ import { View, SectionList, Text } from 'react-native';
 
 import { SpinLoading } from '../SpinLoading';
 
-import { SummaryProps } from '../../utils/types';
 import { useLoading } from '../../hooks/loading';
+import { useOrdersRoute } from '../../hooks/useOrdersRoute';
 
 import { styles } from './styles';
 
@@ -58,10 +58,12 @@ function SectionHeader({ category, itemsCategoryTotal }: SectionHeaderProps) {
 };
 
 interface RouteSummaryProps {
-  data: SummaryProps
+  routeId: number
 };
-export function RouteSummary({ data }: RouteSummaryProps) {
+
+export function RouteSummary({ routeId }: RouteSummaryProps) {
   const { loading } = useLoading();
+  const { summary } = useOrdersRoute(routeId);
 
   return (
     loading ? (
@@ -71,13 +73,13 @@ export function RouteSummary({ data }: RouteSummaryProps) {
     ) :
       <View style={styles.container}>
         <SectionList
-          sections={data.categories}
+          sections={summary.categories}
           keyExtractor={item => String(item.id)}
           contentContainerStyle={styles.contentContainer}
           ListHeaderComponent={
             <ListHeader
-              ordersTotal={data.ordersTotal}
-              itemsTotal={data.itemsTotal}
+              ordersTotal={summary.ordersTotal}
+              itemsTotal={summary.itemsTotal}
             />
           }
           renderSectionHeader={({ section: { category, itemsCategoryTotal } }) =>

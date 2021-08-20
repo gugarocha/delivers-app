@@ -11,7 +11,7 @@ import { theme } from '../../global/styles';
 
 interface Props {
   data: OrdersProps;
-  changeDeliverStatus?: () => Promise<void>;
+  changeDeliverStatus: () => Promise<void>;
 };
 
 export function OrderCard({ data, changeDeliverStatus }: Props) {
@@ -85,7 +85,10 @@ export function OrderCard({ data, changeDeliverStatus }: Props) {
         >
           <Feather name='truck' size={25} color={theme.colors.gray} />
           <Text style={styles.buttonText}>
-            Entregar{'\n'}Pedido
+            {data.delivered
+              ? 'Voltar\nPedido'
+              : 'Entregar\nPedido'
+            }
           </Text>
         </TouchableOpacity>
 

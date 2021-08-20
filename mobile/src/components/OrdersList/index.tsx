@@ -1,41 +1,26 @@
-import React, { useState, useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import React from 'react';
 import { FlatList, Text, View } from 'react-native';
 
 import { SpinLoading } from '../SpinLoading';
 import { OrderCard } from '../OrderCard';
 import { OrdersStatusTitle } from '../OrdersStatusTitle';
 
-import { useOrder } from '../../hooks/useOrder';
 import { useLoading } from '../../hooks/loading';
-import { OrdersProps } from '../../utils/types';
+import { useOrdersRoute } from '../../hooks/useOrdersRoute';
 
 import { styles } from './styles';
 
 interface Props {
-  data: OrdersProps[];
+  routeId: number;
 };
 
-export function OrdersList({ data }: Props) {
-  const { setToDelivered } = useOrder();
+export function OrdersList({ routeId }: Props) {
   const { loading } = useLoading();
-
-  const [notDeliveredOrders, setNotDeliveredOrders] = useState<OrdersProps[]>([]);
-  const [deliveredOrders, setDeliveredOrders] = useState<OrdersProps[]>([]);
-
-  useFocusEffect(
-    useCallback(() => {
-      setNotDeliveredOrders(data.filter(order => !order.delivered));
-      setDeliveredOrders(data.filter(order => order.delivered));
-    }, [data])
-  );
-
-  async function handleSetDelivered(order: OrdersProps) {
-    await setToDelivered(order.id);
-
-    setDeliveredOrders([...deliveredOrders, order]);
-    setNotDeliveredOrders(notDeliveredOrders.filter(item => item.id !== order.id));
-  };
+  const {
+    notDeliveredOrders,
+    deliveredOrders,
+    handleChangeDeliverStatus
+  } = useOrdersRoute(routeId);
 
   return (
     loading
@@ -57,7 +42,10 @@ export function OrdersList({ data }: Props) {
         renderItem={({ item }) =>
           <OrderCard
             data={item}
-            changeDeliverStatus={() => handleSetDelivered(item)}
+            changeDeliverStatus={() => handleChangeDeliverStatus({
+              orderId: item.id,
+              deliverStatus: !item.delivered
+            })}
           />
         }
         ListHeaderComponent={<OrdersStatusTitle delivered={false} />}
@@ -75,6 +63,10 @@ export function OrdersList({ data }: Props) {
             renderItem={({ item }) =>
               <OrderCard
                 data={item}
+                changeDeliverStatus={() => handleChangeDeliverStatus({
+                  orderId: item.id,
+                  deliverStatus: !item.delivered
+                })}
               />
             }
             ListHeaderComponent={<OrdersStatusTitle delivered />}

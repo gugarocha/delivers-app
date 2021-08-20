@@ -89,13 +89,14 @@ export default {
     };
   },
 
-  async setDelivered(req: Request, res: Response) {
+  async setDeliverStatus(req: Request, res: Response) {
     const { id } = req.params;
+    const { deliverStatus } = req.body;
 
     try {
       await connection('orders')
         .where('id', '=', id)
-        .update('delivered', true);
+        .update('delivered', deliverStatus);
 
       return res.json({ message: 'Set order delivered successfully' });
 

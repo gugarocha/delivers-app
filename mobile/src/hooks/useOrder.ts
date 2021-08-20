@@ -1,9 +1,9 @@
 import { Alert } from "react-native";
 
 import { useLoading } from "./loading";
-import { editOrder, setDeliveredOrder } from '../services/Orders';
+import { editOrder, changeDeliverStatus } from '../services/Orders';
 
-import { OrdersProps } from "../utils/types";
+import { OrdersProps, SetDeliverStatusProps } from "../utils/types";
 
 export function useOrder() {
   const { setLoading } = useLoading();
@@ -20,13 +20,13 @@ export function useOrder() {
     };
   };
 
-  async function setToDelivered(orderId: number) {
+  async function setDeliverStatus(data: SetDeliverStatusProps) {
     setLoading(true);
 
     try {
-      await setDeliveredOrder(orderId);
+      await changeDeliverStatus(data);
     } catch {
-      Alert.alert('Erro ao definir o pedido como entregue');
+      Alert.alert('Erro ao definir o status de entrega do pedido');
     } finally {
       setLoading(false);
     };
@@ -34,6 +34,6 @@ export function useOrder() {
 
   return {
     updateOrder,
-    setToDelivered
+    setDeliverStatus
   };
 };

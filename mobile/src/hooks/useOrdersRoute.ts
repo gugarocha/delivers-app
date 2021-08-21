@@ -15,8 +15,9 @@ export function useOrdersRoute(routeId: number) {
   const [deliveredOrders, setDeliveredOrders] = useState<OrdersProps[]>([]);
   const [summary, setSummary] = useState<SummaryProps>({} as SummaryProps);
 
-
   async function fetchData() {
+    setLoading(true);
+
     const ordersData = await getOrders(routeId);
     const summaryData = await getSummary(routeId);
 
@@ -36,8 +37,6 @@ export function useOrdersRoute(routeId: number) {
   );
 
   async function handleChangeDeliverStatus(data: SetDeliverStatusProps) {
-    setLoading(true);
-
     await setDeliverStatus(data);
 
     await fetchData();

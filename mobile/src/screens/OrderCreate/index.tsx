@@ -35,7 +35,7 @@ export default function OrderCreate() {
   const [delivered, setDelivered] = useState(selectedOrder.delivered ? 'Sim' : 'Não');
   const { selectedProducts } = useSelectedProducts();
 
-  const { updateOrder } = useOrder();
+  const { updateOrder, addOrder } = useOrder();
   const navigation = useNavigation();
 
   function handleNavigateToAddProducts() {
@@ -74,7 +74,7 @@ export default function OrderCreate() {
       delivered: delivered === 'Sim',
     };
 
-    await updateOrder(data);
+    selectedOrder.id ? await updateOrder(data) : await addOrder(data);
 
     navigation.goBack();
   };

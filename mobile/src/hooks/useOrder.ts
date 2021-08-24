@@ -1,10 +1,23 @@
 import { Alert } from "react-native";
 
-import { editOrder, changeDeliverStatus, deleteOrder } from '../services/Orders';
+import {
+  createOrder,
+  editOrder,
+  changeDeliverStatus,
+  deleteOrder
+} from '../services/Orders';
 
 import { OrdersProps, SetDeliverStatusProps } from "../utils/types";
 
 export function useOrder() {
+  async function addOrder(data: OrdersProps) {
+    try {
+      await createOrder(data);
+    } catch (error) {
+      Alert.alert('Erro ao criar novo pedido');
+    };
+  };
+
   async function updateOrder(data: OrdersProps) {
     try {
       await editOrder(data);
@@ -30,6 +43,7 @@ export function useOrder() {
   };
 
   return {
+    addOrder,
     updateOrder,
     setDeliverStatus,
     removeOrder

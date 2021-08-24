@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/core';
 import {
+  Alert,
   ScrollView,
   View,
   Text,
@@ -52,13 +53,21 @@ export default function OrderCreate() {
   };
 
   function convertValueToReceiveToNumber(value: string) {
-    let sanitizedValue = value.replace(/\D/g, '');
+    let sanitizedValue = value && value.replace(/\D/g, '');
 
     return Number(sanitizedValue) / 100;
   };
 
   function handleCancelButton() {
     navigation.goBack();
+  };
+
+  function checkDataIsComplete(data: OrdersProps) {
+    return (
+      !!data.client &&
+      data.products.length > 0 &&
+      (data.payment === 'Receber' ? !!data.valueToReceive : !!data.payment)
+    );
   };
 
   async function handleConfirmButton() {
@@ -74,9 +83,13 @@ export default function OrderCreate() {
       delivered: delivered === 'Sim',
     };
 
-    selectedOrder.id ? await updateOrder(data) : await addOrder(data);
+    if (checkDataIsComplete(data)) {
+      selectedOrder.id ? await updateOrder(data) : await addOrder(data);
 
-    navigation.goBack();
+      navigation.goBack();
+    } else {
+      Alert.alert('Dados Incompletos', 'Preencha todos os campos para continuar');
+    };
   };
 
   return (

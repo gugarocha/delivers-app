@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList, Text, View } from 'react-native';
 
 import { SpinLoading } from '../SpinLoading';
+import { ActionModal } from '../ActionModal';
 import { OrderCard } from '../OrderCard';
 import { OrdersStatusTitle } from '../OrdersStatusTitle';
 
@@ -19,8 +20,29 @@ export function OrdersList({ routeId }: Props) {
   const {
     notDeliveredOrders,
     deliveredOrders,
-    handleChangeDeliverStatus
+    changeDeliverStatus,
+    removeOrderRoute
   } = useOrdersRoute(routeId);
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedId, setSelectedId] = useState<number>();
+
+  function closeModal() {
+    setShowModal(false);
+  };
+
+  function handleClickDeleteOrder(id: number) {
+    setSelectedId(id);
+    setShowModal(true);
+  };
+
+  async function handleConfirmDelete() {
+    closeModal();
+
+    if (selectedId) {
+      await removeOrderRoute(selectedId);
+    };
+  };
 
   return (
     loading
@@ -29,49 +51,64 @@ export function OrdersList({ routeId }: Props) {
           <SpinLoading />
         </View>
       ) :
-      <FlatList
-        data={notDeliveredOrders}
-        keyExtractor={item => String(item.id)}
-        contentContainerStyle={styles.contentContainer}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={
-          <Text style={styles.emptyListText}>
-            Nenhum pedido para ser entregue
+      <>
+        <ActionModal
+          isVisible={showModal}
+          title='Excluir Pedido'
+          cancelButtonAction={closeModal}
+          confirmButtonAction={handleConfirmDelete}
+        >
+          <Text style={styles.modalText}>
+            Deseja excluir esse pedido?
           </Text>
-        }
-        renderItem={({ item }) =>
-          <OrderCard
-            data={item}
-            changeDeliverStatus={() => handleChangeDeliverStatus({
-              orderId: item.id,
-              deliverStatus: !item.delivered
-            })}
-          />
-        }
-        ListHeaderComponent={<OrdersStatusTitle delivered={false} />}
-        ListFooterComponent={() => (
-          <FlatList
-            data={deliveredOrders}
-            keyExtractor={item => String(item.id)}
-            contentContainerStyle={styles.contentContainer}
-            showsVerticalScrollIndicator={false}
-            ListEmptyComponent={
-              <Text style={styles.emptyListText}>
-                Nenhum pedido entregue
-              </Text>
-            }
-            renderItem={({ item }) =>
-              <OrderCard
-                data={item}
-                changeDeliverStatus={() => handleChangeDeliverStatus({
-                  orderId: item.id,
-                  deliverStatus: !item.delivered
-                })}
-              />
-            }
-            ListHeaderComponent={<OrdersStatusTitle delivered />}
-          />
-        )}
-      />
+        </ActionModal>
+
+        <FlatList
+          data={notDeliveredOrders}
+          keyExtractor={item => String(item.id)}
+          contentContainerStyle={styles.contentContainer}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={
+            <Text style={styles.emptyListText}>
+              Nenhum pedido para ser entregue
+            </Text>
+          }
+          renderItem={({ item }) =>
+            <OrderCard
+              data={item}
+              changeDeliverStatus={() => changeDeliverStatus({
+                orderId: item.id,
+                deliverStatus: !item.delivered
+              })}
+              handleRemoveOrder={() => handleClickDeleteOrder(item.id)}
+            />
+          }
+          ListHeaderComponent={<OrdersStatusTitle delivered={false} />}
+          ListFooterComponent={() => (
+            <FlatList
+              data={deliveredOrders}
+              keyExtractor={item => String(item.id)}
+              contentContainerStyle={styles.contentContainer}
+              showsVerticalScrollIndicator={false}
+              ListEmptyComponent={
+                <Text style={styles.emptyListText}>
+                  Nenhum pedido entregue
+                </Text>
+              }
+              renderItem={({ item }) =>
+                <OrderCard
+                  data={item}
+                  changeDeliverStatus={() => changeDeliverStatus({
+                    orderId: item.id,
+                    deliverStatus: !item.delivered
+                  })}
+                  handleRemoveOrder={() => handleClickDeleteOrder(item.id)}
+                />
+              }
+              ListHeaderComponent={<OrdersStatusTitle delivered />}
+            />
+          )}
+        />
+      </>
   );
 };

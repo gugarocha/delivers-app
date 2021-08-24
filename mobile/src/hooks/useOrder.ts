@@ -1,6 +1,6 @@
 import { Alert } from "react-native";
 
-import { editOrder, changeDeliverStatus } from '../services/Orders';
+import { editOrder, changeDeliverStatus, deleteOrder } from '../services/Orders';
 
 import { OrdersProps, SetDeliverStatusProps } from "../utils/types";
 
@@ -21,8 +21,17 @@ export function useOrder() {
     };
   };
 
+  async function removeOrder(id: number) {
+    try {
+      await deleteOrder(id);
+    } catch (error) {
+      Alert.alert('Erro ao remover pedido');
+    };
+  };
+
   return {
     updateOrder,
-    setDeliverStatus
+    setDeliverStatus,
+    removeOrder
   };
 };

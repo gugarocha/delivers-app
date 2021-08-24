@@ -20,3 +20,11 @@ export async function changeDeliverStatus(data: SetDeliverStatusProps) {
     throw new Error(error);
   };
 };
+
+export async function deleteOrder(id: number) {
+  try {
+    await api.delete(`/orders/${id}`);
+  } catch (error) {
+    throw new Error(error);
+  };
+};

@@ -5,6 +5,11 @@ import { theme } from '../../global/styles';
 const screenWidth = Dimensions.get('window').width;
 
 export const styles = StyleSheet.create({
+  modalText: {
+    marginTop: 30,
+    fontSize: 16,
+    textAlign: 'center'
+  },
   contentContainer: {
     width: screenWidth,
     paddingHorizontal: 12,
@@ -16,4 +21,5 @@ export const styles = StyleSheet.create({
     fontFamily: theme.fonts.light,
     color: theme.colors.gray,
   },
+
 });

@@ -9,7 +9,7 @@ import { OrdersProps, SetDeliverStatusProps, SummaryProps } from "../utils/types
 
 export function useOrdersRoute(routeId: number) {
   const { setLoading } = useLoading();
-  const { setDeliverStatus } = useOrder();
+  const { setDeliverStatus, removeOrder } = useOrder();
 
   const [notDeliveredOrders, setNotDeliveredOrders] = useState<OrdersProps[]>([]);
   const [deliveredOrders, setDeliveredOrders] = useState<OrdersProps[]>([]);
@@ -36,16 +36,23 @@ export function useOrdersRoute(routeId: number) {
     }, [])
   );
 
-  async function handleChangeDeliverStatus(data: SetDeliverStatusProps) {
+  async function changeDeliverStatus(data: SetDeliverStatusProps) {
     await setDeliverStatus(data);
 
     await fetchData();
   };
 
+  async function removeOrderRoute(id: number) {
+    await removeOrder(id);
+
+    await fetchData();
+  }; 
+
   return {
     notDeliveredOrders,
     deliveredOrders,
     summary,
-    handleChangeDeliverStatus
+    changeDeliverStatus,
+    removeOrderRoute
   };
 };

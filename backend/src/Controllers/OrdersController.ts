@@ -48,7 +48,14 @@ export default {
 
   async update(req: Request, res: Response) {
     const { id } = req.params;
-    const { routeId, client, products, payment, valueToReceive } = req.body;
+    const {
+      routeId,
+      client,
+      products,
+      payment,
+      valueToReceive,
+      delivered
+    } = req.body;
 
     const trx = await connection.transaction();
 
@@ -59,7 +66,8 @@ export default {
           route_id: routeId,
           client: client,
           payment: payment,
-          value_to_receive: valueToReceive
+          value_to_receive: valueToReceive,
+          delivered: delivered
         });
 
       await trx('orders_products')

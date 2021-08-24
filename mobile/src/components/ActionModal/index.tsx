@@ -11,7 +11,7 @@ interface Props {
   title: string;
   children: React.ReactNode;
   cancelButtonAction: () => void;
-  confirmButtonAction: () => void;
+  confirmButtonAction: () => Promise<void>;
 };
 
 export function ActionModal({
@@ -42,7 +42,7 @@ export function ActionModal({
 
           <ActionButton
             type='Confirmar'
-            onPress={confirmButtonAction}
+            onPress={async () => await confirmButtonAction()}
           />
         </View>
       </View>

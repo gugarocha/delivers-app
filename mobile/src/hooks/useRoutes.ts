@@ -1,7 +1,12 @@
 import { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/core';
 
-import { getRoutes, newRoute, editRouteInfo } from '../services/Routes';
+import {
+  getRoutes,
+  newRoute,
+  editRouteInfo,
+  setFinished
+} from '../services/Routes';
 import { RouteProps } from '../utils/types';
 
 export function useRoutes() {
@@ -26,5 +31,6 @@ export function useRoutes() {
     loading,
     newRoute,
     editRouteInfo,
+    setFinished
   };
 };

@@ -64,3 +64,11 @@ export async function getSummary(routeId: number) {
 
   return summary;
 };
+
+export async function setFinished(routeId: number) {
+  try {
+    await api.put(`/routes/${routeId}/finished`);
+  } catch (error) {
+    throw new Error(error);
+  };
+};

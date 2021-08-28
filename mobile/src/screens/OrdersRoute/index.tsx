@@ -13,7 +13,7 @@ import { Feather } from '@expo/vector-icons';
 import { ActionModal } from '../../components/ActionModal';
 import { Header } from '../../components/Header';
 import { RouteDataModal } from '../../components/RouteDataModal';
-import { OrdersList } from '../../components/OrdersList';
+import { RouteOrdersList } from '../../components/RouteOrdersList';
 import { RouteSummary } from '../../components/RouteSummary';
 
 import { useSelectedProducts } from '../../hooks/selectedProducts';
@@ -141,7 +141,7 @@ export default function OrdersRoute() {
           pagingEnabled
           showsHorizontalScrollIndicator={false}
         >
-          <OrdersList routeId={routeInfo.routeId} />
+          <RouteOrdersList routeId={routeInfo.routeId} />
           <RouteSummary routeId={routeInfo.routeId} />
         </ScrollView>
       </View>

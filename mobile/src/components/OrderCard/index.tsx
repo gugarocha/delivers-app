@@ -12,10 +12,14 @@ import { theme } from '../../global/styles';
 interface Props {
   data: OrdersProps;
   changeDeliverStatus: () => Promise<void>;
-  handleRemoveOrder: () => void;
+  handleDeleteOrder: () => void;
 };
 
-export function OrderCard({ data, changeDeliverStatus, handleRemoveOrder }: Props) {
+export function OrderCard({
+  data,
+  changeDeliverStatus,
+  handleDeleteOrder
+}: Props) {
   const { setSelectedProducts } = useSelectedProducts();
 
   const navigation = useNavigation();
@@ -95,7 +99,7 @@ export function OrderCard({ data, changeDeliverStatus, handleRemoveOrder }: Prop
 
         <TouchableOpacity
           style={styles.button}
-          onPress={handleRemoveOrder}
+          onPress={handleDeleteOrder}
         >
           <Feather name='trash-2' size={25} color={theme.colors.gray} />
           <Text style={styles.buttonText}>

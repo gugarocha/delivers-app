@@ -6,7 +6,6 @@ const screenWidth = Dimensions.get('window').width;
 
 export const styles = StyleSheet.create({
   modalText: {
-    marginTop: 30,
     fontSize: 16,
     textAlign: 'center'
   },

@@ -11,7 +11,7 @@ interface Props {
   title: string;
   children: React.ReactNode;
   cancelButtonAction: () => void;
-  confirmButtonAction: () => Promise<void>;
+  confirmButtonAction: () => void | Promise<void>;
 };
 
 export function ActionModal({

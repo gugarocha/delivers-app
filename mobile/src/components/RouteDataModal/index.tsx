@@ -114,7 +114,7 @@ export function RouteDataModal({
         />
       }
 
-      <View style={styles.modalRowWrapper}>
+      <View style={[styles.modalRowWrapper, { marginBottom: 30 }]}>
         <Text style={styles.modalLabel}>Data:</Text>
         <Feather name='calendar' size={16} style={styles.calendarIcon} />
         <TouchableOpacity

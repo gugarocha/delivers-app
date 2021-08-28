@@ -4,7 +4,6 @@ import { theme } from '../../global/styles';
 
 export const styles = StyleSheet.create({
   setFinishedModalText: {
-    marginTop: 30,
     fontSize: 16,
     textAlign: 'center',
   },

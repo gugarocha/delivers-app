@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
     borderRadius: 15,
   },
   title: {
+    marginBottom: 30,
     textAlign: 'center',
     color: theme.colors.primary,
     fontFamily: theme.fonts.regular,

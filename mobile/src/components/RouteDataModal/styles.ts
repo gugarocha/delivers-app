@@ -7,7 +7,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
-    marginTop: 30,
   },
   modalLabel: {
     marginRight: 8,

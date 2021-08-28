@@ -35,6 +35,7 @@ export function useOrdersRoute(routeId: number) {
   return {
     notDeliveredOrders,
     deliveredOrders,
-    summary
+    summary,
+    fetchData
   };
 };

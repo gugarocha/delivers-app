@@ -9,17 +9,18 @@ import { OrdersList } from '../../components/OrdersList';
 
 import { useSelectedProducts } from '../../hooks/selectedProducts';
 import { useLoading } from '../../hooks/loading';
+import { useDelivers } from '../../hooks/useDelivers';
+
 import { OrderProductsProps, OrdersProps } from '../../utils/types';
 
 import { styles } from './styles';
-import { useDelivers } from '../../hooks/useDelivers';
 
 export default function Delivers() {
   const navigation = useNavigation();
 
   const { setSelectedProducts } = useSelectedProducts();
   const { loading } = useLoading();
-  const { orders } = useDelivers();
+  const { orders, fetchData } = useDelivers();
 
   function handleNavigateToOrderCreate() {
     setSelectedProducts([] as OrderProductsProps[]);
@@ -53,7 +54,10 @@ export default function Delivers() {
       {
         loading
           ? <SpinLoading />
-          : <OrdersList data={orders} />
+          : <OrdersList
+            data={orders}
+            fetchData={fetchData}
+          />
       }
     </View>
   );

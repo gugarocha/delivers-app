@@ -10,20 +10,20 @@ export function useDelivers() {
   const { setLoading } = useLoading();
   const [orders, setOrders] = useState<OrdersProps[]>([]);
 
+  async function fetchData() {  
+    const data = await getDelivers();
+    setOrders(data);
+
+    setLoading(false);
+  };
+  
   useFocusEffect(
     useCallback(() => {
-      async function fetchData() {
-        setLoading(true);
-
-        const data = await getDelivers();
-        setOrders(data);
-
-        setLoading(false);
-      };
+      setLoading(true);
 
       fetchData();
     }, [])
   );
 
-  return { orders };
+  return { orders, fetchData };
 };

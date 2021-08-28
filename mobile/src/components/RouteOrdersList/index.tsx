@@ -18,6 +18,7 @@ export function RouteOrdersList({ routeId }: Props) {
   const {
     notDeliveredOrders,
     deliveredOrders,
+    fetchData
   } = useOrdersRoute(routeId);
 
   return (
@@ -29,9 +30,11 @@ export function RouteOrdersList({ routeId }: Props) {
       ) :
       <OrdersList
         data={notDeliveredOrders}
+        fetchData={fetchData}
         ListFooterComponent={
           <OrdersList
             data={deliveredOrders}
+            fetchData={fetchData}
             isDeliveredOrders
           />
         }

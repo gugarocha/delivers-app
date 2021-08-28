@@ -12,12 +12,14 @@ import { styles } from './styles';
 
 interface Props {
   data: OrdersProps[];
+  fetchData: () => Promise<void>;
   isDeliveredOrders?: boolean;
   ListFooterComponent?: React.ReactElement;
 };
 
 export function OrdersList({
   data,
+  fetchData,
   isDeliveredOrders = false,
   ListFooterComponent,
 }: Props) {
@@ -36,11 +38,11 @@ export function OrdersList({
   };
 
   async function handleConfirmDelete() {
-    if (selectedId) {
-      await removeOrder(selectedId);
-    };
-
     closeModal();
+    
+    if (selectedId) {
+      await removeOrder(selectedId, fetchData);
+    };
   };
 
   return (
@@ -73,10 +75,12 @@ export function OrdersList({
         renderItem={({ item }) =>
           <OrderCard
             data={item}
-            changeDeliverStatus={() => setDeliverStatus({
-              orderId: item.id,
-              deliverStatus: !item.delivered
-            })}
+            changeDeliverStatus={() =>
+              setDeliverStatus({
+                orderId: item.id,
+                deliverStatus: !item.delivered
+              }, fetchData)
+            }
             handleDeleteOrder={() => openDeleteOrderModal(item.id)}
           />
         }

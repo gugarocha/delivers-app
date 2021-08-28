@@ -11,6 +11,7 @@ import {
 import { Feather } from '@expo/vector-icons';
 
 import { Header } from '../../components/Header';
+import { AttachToRouteModal } from '../../components/AttachToRouteModal';
 import { FormContainer } from '../../components/FormContainer';
 import { SelectedProductsList } from '../../components/SelectedProductsList';
 import { CheckBoxGroup } from '../../components/CheckBoxGroup';
@@ -30,6 +31,9 @@ export default function OrderCreate() {
   const route = useRoute();
   const { selectedOrder } = route.params as Params;
 
+  const [showModal, setShowModal] = useState(false);
+
+  const [routeId, setRouteId] = useState(selectedOrder.routeId);
   const [clientName, setClientName] = useState(selectedOrder.client);
   const [payment, setPayment] = useState(selectedOrder.payment);
   const [valueToReceive, setValueToReceive] = useState(selectedOrder.valueToReceive as string);
@@ -38,6 +42,10 @@ export default function OrderCreate() {
 
   const { updateOrder, addOrder } = useOrder();
   const navigation = useNavigation();
+
+  function closeModal() {
+    setShowModal(false);
+  };
 
   function handleNavigateToAddProducts() {
     navigation.navigate('AddProducts');
@@ -73,7 +81,7 @@ export default function OrderCreate() {
   async function handleConfirmButton() {
     const data: OrdersProps = {
       id: selectedOrder.id,
-      routeId: selectedOrder.routeId || null,
+      routeId: routeId || null,
       client: clientName,
       products: selectedProducts,
       payment: payment,
@@ -96,11 +104,20 @@ export default function OrderCreate() {
     <View style={styles.container}>
       <Header title='Pedido'>
         {!selectedOrder.routeId && (
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setShowModal(true)}
+          >
             <Feather name='paperclip' size={24} color='#FFF' />
           </TouchableOpacity>
         )}
       </Header>
+
+      <AttachToRouteModal
+        isVisible={showModal}
+        routeId={routeId}
+        setRouteId={setRouteId}
+        closeModal={closeModal}
+      />
 
       <ScrollView contentContainerStyle={styles.scrollContentContainer}>
         <FormContainer>

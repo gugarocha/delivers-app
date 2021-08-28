@@ -27,6 +27,7 @@ export default function Delivers() {
 
     navigation.navigate('OrderCreate', {
       selectedOrder: {
+        routeId: null,
         client: '',
         payment: 'Pendente',
         delivered: false,

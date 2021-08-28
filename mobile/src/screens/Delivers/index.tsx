@@ -4,94 +4,22 @@ import { View, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 import { Header } from '../../components/Header';
+import { SpinLoading } from '../../components/SpinLoading';
 import { OrdersList } from '../../components/OrdersList';
-import { OrdersStatusTitle } from '../../components/OrdersStatusTitle';
 
 import { useSelectedProducts } from '../../hooks/selectedProducts';
+import { useLoading } from '../../hooks/loading';
 import { OrderProductsProps, OrdersProps } from '../../utils/types';
 
 import { styles } from './styles';
+import { useDelivers } from '../../hooks/useDelivers';
 
 export default function Delivers() {
-  const data: OrdersProps[] = [
-    {
-      id: 3,
-      client: "Sicrano",
-      payment: 'Receber',
-      valueToReceive: "350,00",
-      delivered: false,
-      products: [
-        {
-          id: 1,
-          product: "Milho Saco",
-          categoryId: 1,
-          productAmount: 1
-        },
-        {
-          id: 2,
-          product: "Poim Saco",
-          categoryId: 1,
-          productAmount: 2
-        },
-        {
-          id: 4,
-          product: "Rezido",
-          categoryId: 1,
-          productAmount: 1
-        },
-        {
-          id: 3,
-          product: "Água Norte",
-          categoryId: 2,
-          productAmount: 3
-        }
-      ]
-    },
-    {
-      id: 4,
-      client: "Sicrano",
-      payment: 'Ok',
-      delivered: true,
-      products: [
-        {
-          id: 1,
-          product: "Milho Saco",
-          categoryId: 1,
-          productAmount: 1
-        },
-        {
-          id: 4,
-          product: "Rezido",
-          categoryId: 1,
-          productAmount: 2
-        },
-      ]
-    },
-    {
-      id: 5,
-      client: "Sicrano",
-      payment: 'Ok',
-      delivered: true,
-      products: [
-        {
-          id: 1,
-          product: "Milho Saco",
-          categoryId: 1,
-          productAmount: 1
-        },
-        {
-          id: 3,
-          product: "Água Norte",
-          categoryId: 2,
-          productAmount: 3
-        },
-      ]
-    }
-  ];
-
   const navigation = useNavigation();
 
   const { setSelectedProducts } = useSelectedProducts();
+  const { loading } = useLoading();
+  const { orders } = useDelivers();
 
   function handleNavigateToOrderCreate() {
     setSelectedProducts([] as OrderProductsProps[]);
@@ -122,10 +50,11 @@ export default function Delivers() {
         </TouchableOpacity>
       </Header>
 
-      <OrdersList
-        data={data}
-        ListHeaderComponent={() => <OrdersStatusTitle delivered={false} />}
-      />
+      {
+        loading
+          ? <SpinLoading />
+          : <OrdersList data={orders} />
+      }
     </View>
   );
 };

@@ -72,7 +72,7 @@ export default {
 
   async update(req: Request, res: Response) {
     const { id } = req.params
-    const { name, categoryId, isActive } = req.body;
+    const { name, categoryId, active } = req.body;
 
     try {
       await connection('products')
@@ -80,7 +80,7 @@ export default {
         .update({
           name: name,
           category_id: categoryId,
-          active: isActive
+          active: active
         });
 
       return res.json({ message: "Update product successfully" })

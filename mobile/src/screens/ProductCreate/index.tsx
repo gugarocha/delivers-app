@@ -28,7 +28,7 @@ export default function ProductCreate() {
   const route = useRoute();
   const { product } = route.params as Params;
 
-  const { createProduct } = useProducts();
+  const { createProduct, updateProduct } = useProducts();
 
   const [productName, setProductName] = useState(product.name);
   const [category, setCategory] = useState(CategoryEnum[product.categoryId]);
@@ -63,7 +63,7 @@ export default function ProductCreate() {
     };
 
     if (checkDataIsComplete(data)) {
-      await createProduct(data);
+      product.id ? updateProduct(data) : await createProduct(data);
 
       goBack();
     } else {

@@ -1,4 +1,4 @@
-import { ProductsCategoryProps } from "../utils/types";
+import { ProductProps, ProductsCategoryProps } from "../utils/types";
 
 import api from "./api";
 
@@ -17,6 +17,14 @@ interface CreateProductProps {
 export async function addProduct(data: CreateProductProps) {
   try {
     await api.post('/products', data);
+  } catch (error) {
+    throw new Error(error);
+  };
+};
+
+export async function editProduct(data: ProductProps) {
+  try {
+    await api.put(`/products/${data.id}`, data);
   } catch (error) {
     throw new Error(error);
   };

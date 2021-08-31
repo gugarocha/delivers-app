@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/core';
-import { View, Text, TextInput } from 'react-native';
+import { Alert, View, Text, TextInput } from 'react-native';
 
 import { Header } from '../../components/Header';
 import { FormContainer } from '../../components/FormContainer';
 import { CheckBoxGroup } from '../../components/CheckBoxGroup';
 import { ActionButton } from '../../components/ActionButton';
 
+import { useProducts } from '../../hooks/useProducts';
 import { ProductProps } from '../../utils/types';
 
 import { styles } from './styles';
@@ -19,15 +21,55 @@ enum CategoryEnum {
   Sacarias = 1,
   Águas,
   Mercadorias
-}
+};
 
 export default function ProductCreate() {
+  const { goBack } = useNavigation();
   const route = useRoute();
   const { product } = route.params as Params;
+
+  const { createProduct } = useProducts();
 
   const [productName, setProductName] = useState(product.name);
   const [category, setCategory] = useState(CategoryEnum[product.categoryId]);
   const [active, setActive] = useState(product.active ? 'Sim' : 'Não');
+
+  function getCategoryId() {
+    switch (category) {
+      case 'Sacarias':
+        return 1;
+      case 'Águas':
+        return 2;
+      case 'Mercadorias':
+        return 3;
+      default:
+        return 0;
+    };
+  };
+
+  function checkDataIsComplete(data: ProductProps) {
+    return (
+      !!data.name &&
+      data.categoryId !== 0
+    );
+  };
+
+  async function handleConfirm() {
+    const data = {
+      id: product.id,
+      name: productName,
+      categoryId: getCategoryId(),
+      active: active === 'Sim',
+    };
+
+    if (checkDataIsComplete(data)) {
+      await createProduct(data);
+
+      goBack();
+    } else {
+      Alert.alert('Dados Incompletos', 'Preencha todos os campos para continuar');
+    };
+  };
 
   return (
     <View style={styles.container}>
@@ -68,12 +110,14 @@ export default function ProductCreate() {
           <View style={styles.button}>
             <ActionButton
               type='Cancelar'
+              onPress={goBack}
             />
           </View>
 
           <View style={styles.button}>
             <ActionButton
               type='Confirmar'
+              onPress={handleConfirm}
             />
           </View>
         </View>

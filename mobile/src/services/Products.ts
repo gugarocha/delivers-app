@@ -9,3 +9,15 @@ export async function getProducts() {
 
   return products;
 };
+
+interface CreateProductProps {
+  name: string;
+  categoryId: number;
+};
+export async function addProduct(data: CreateProductProps) {
+  try {
+    await api.post('/products', data);
+  } catch (error) {
+    throw new Error(error);
+  };
+};

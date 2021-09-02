@@ -59,17 +59,23 @@ export function SetAmountModal({
       confirmButtonAction={handleModalConfirmButton}
     >
       <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          value={amount}
-          onChangeText={handleChangeAmount}
-          maxLength={3}
-          keyboardType='number-pad'
-          autoFocus
-        />
         <Text style={styles.product}>
-          x {selectedProduct.product}
+          {selectedProduct.product}
         </Text>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.inputLabel}>
+            Informe a quantidade:
+          </Text>
+          <TextInput
+            style={styles.input}
+            value={amount}
+            onChangeText={handleChangeAmount}
+            maxLength={3}
+            keyboardType='number-pad'
+            autoFocus
+          />
+        </View>
       </View>
     </ActionModal>
   );

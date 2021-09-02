@@ -1,47 +1,56 @@
 import React from 'react';
-import { SectionList, Text } from 'react-native';
+import { View, SectionList, Text } from 'react-native';
 
 import { SpinLoading } from '../SpinLoading';
 import { Product } from '../Product';
 
-import { ProductProps } from '../../utils/types';
+import { ProductProps, ProductsCategoryProps } from '../../utils/types';
 import { useLoading } from '../../hooks/loading';
-import { useProducts } from '../../hooks/useProducts';
 
 import { styles } from './styles';
 
 interface Props {
+  data: ProductsCategoryProps[];
   onSelectProduct: (product: ProductProps) => void;
-  ListHeaderComponent: React.ComponentType;
+  ListHeaderComponent: React.ReactElement;
+  ListFooterComponent?: React.ReactElement;
 };
 
-export function ListProducts({ onSelectProduct, ListHeaderComponent }: Props) {
+export function ListProducts({
+  data,
+  onSelectProduct,
+  ListHeaderComponent,
+  ListFooterComponent
+}: Props) {
   const { loading } = useLoading();
-  const { products } = useProducts();
 
   return (
     loading
       ? <SpinLoading />
       : (
-        <SectionList
-          sections={products}
-          keyExtractor={item => String(item.id)}
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}
-          renderItem={({ item }) => (
-            <Product
-              product={item}
-              onPress={() => onSelectProduct(item)}
-            />
-          )}
-          renderSectionHeader={({ section: { category } }) => (
-            <Text style={styles.sectionHeader}>
-              {category}
-            </Text>
-          )}
-          ListHeaderComponent={() => <ListHeaderComponent />}
-          showsVerticalScrollIndicator={false}
-        />
+        <View style={styles.container}>
+          <SectionList
+            sections={data}
+            keyExtractor={item => String(item.id)}
+            contentContainerStyle={styles.contentContainer}
+            renderItem={({ item }) => (
+              <Product
+                product={item}
+                onPress={() => onSelectProduct(item)}
+              />
+            )}
+            renderSectionHeader={({ section }) =>
+              section.data.length > 0 ? (
+                <Text style={styles.sectionHeader}>
+                  {section.category}
+                </Text>
+              ) : <View />
+            }
+            ListHeaderComponent={ListHeaderComponent}
+            ListFooterComponent={ListFooterComponent}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
       )
   );
 };

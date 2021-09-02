@@ -6,6 +6,7 @@ import { SetAmountModal } from '../../components/SetAmountModal';
 import { ListProducts } from '../../components/ListProducts';
 import { SelectedProductsList } from '../../components/SelectedProductsList';
 
+import { useProducts } from '../../hooks/useProducts';
 import { OrderProductsProps, ProductProps } from '../../utils/types';
 
 import { styles } from './styles';
@@ -13,6 +14,8 @@ import { styles } from './styles';
 export default function AddProducts() {
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState({} as OrderProductsProps);
+
+  const { activeProducts } = useProducts();
 
   function closeModal() {
     setShowModal(false);
@@ -41,8 +44,9 @@ export default function AddProducts() {
       />
 
       <ListProducts
+        data={activeProducts}
         onSelectProduct={handleSelectProduct}
-        ListHeaderComponent={() => (
+        ListHeaderComponent={
           <>
             <View style={styles.selectedProductsContainer}>
               <Text style={styles.selectedProductsHeader}>
@@ -55,7 +59,7 @@ export default function AddProducts() {
               Selecione os Produtos
             </Text>
           </>
-        )}
+        }
       />
     </>
   );

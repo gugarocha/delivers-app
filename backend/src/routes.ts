@@ -8,7 +8,7 @@ import RoutesController from './Controllers/RoutesController';
 const routes = Router();
 
 routes.get('/products', ProductsController.index);
-routes.get('/products/all', ProductsController.showAll);
+routes.get('/products/inactive', ProductsController.getInactiveProducts);
 routes.post('/products', ProductsController.create);
 routes.put('/products/:id', ProductsController.update)
 

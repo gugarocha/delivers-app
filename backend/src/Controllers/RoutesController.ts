@@ -2,13 +2,13 @@ import { Request, Response } from "express";
 
 import connection from "../database/connection";
 
-import { CategoryEnum, Order, Product } from "../types";
+import { OrderProducts, CategoryEnum, Order } from "../types";
 import fetchProducts from "../utils/fetchProducts";
 
 interface Category {
   category: string;
   itemsCategoryTotal: number;
-  data: Product[];
+  data: OrderProducts[];
 };
 
 export default {
@@ -56,7 +56,7 @@ export default {
 
     ordersIds = ordersIds.map(({ id }) => id);
 
-    const products: Product[] = await connection('products')
+    const products: OrderProducts[] = await connection('products')
       .select({
         id: 'products.id',
         product: 'products.name',

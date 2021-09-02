@@ -7,7 +7,7 @@ export type ProductProps = {
 
 export type ProductsCategoryProps = {
   category: string;
-  data: ProductProps;
+  data: ProductProps[];
 };
 
 export type OrderProductsProps = {

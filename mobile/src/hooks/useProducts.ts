@@ -4,19 +4,28 @@ import { Alert } from "react-native";
 
 import { useLoading } from "./loading";
 import { ProductProps, ProductsCategoryProps } from "../utils/types";
-import { getProducts, addProduct, editProduct } from "../services/Products";
+import {
+  getActiveProducts,
+  getInactiveProducts,
+  addProduct,
+  editProduct
+} from "../services/Products";
 
 export function useProducts() {
   const { setLoading } = useLoading();
-  const [products, setProducts] = useState<ProductsCategoryProps[]>([]);
+  const [activeProducts, setActiveProducts] = useState<ProductsCategoryProps[]>([]);
+  const [inactiveProducts, setInactiveProducts] = useState<ProductsCategoryProps[]>([]);
 
   useFocusEffect(
     useCallback(() => {
       async function fetchProducts() {
         setLoading(true);
 
-        const data = await getProducts();
-        setProducts(data);
+        const active = await getActiveProducts();
+        setActiveProducts(active);
+
+        const inactive = await getInactiveProducts();
+        setInactiveProducts(inactive);
 
         setLoading(false);
       };
@@ -50,7 +59,8 @@ export function useProducts() {
   };
 
   return {
-    products,
+    activeProducts,
+    inactiveProducts,
     createProduct,
     updateProduct
   };

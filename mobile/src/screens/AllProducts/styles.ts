@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     marginLeft: 15,
   },
   headerTitle: {
+    marginTop: 10,
     fontSize: 16,
     color: theme.colors.secondary
   },

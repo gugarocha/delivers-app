@@ -2,8 +2,16 @@ import { ProductProps, ProductsCategoryProps } from "../utils/types";
 
 import api from "./api";
 
-export async function getProducts() {
+export async function getActiveProducts() {
   const response = await api.get('/products');
+
+  const products: ProductsCategoryProps[] = response.data;
+
+  return products;
+};
+
+export async function getInactiveProducts() {
+  const response = await api.get('/products/inactive');
 
   const products: ProductsCategoryProps[] = response.data;
 

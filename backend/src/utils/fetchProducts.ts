@@ -1,11 +1,11 @@
 import connection from "../database/connection";
 
-import { Order, Product } from "../types";
+import { Order, OrderProducts } from "../types";
 
 export default async function fetchProducts(orders: Order[]) {
   const ordersIds = orders.map(order => order.id);
 
-  const products: Product[] = await connection('orders_products')
+  const products: OrderProducts[] = await connection('orders_products')
     .select({
       id: 'orders_products.product_id',
       product: 'products.name',

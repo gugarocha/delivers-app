@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { SpinLoading } from '../SpinLoading';
 import { OrdersList } from '../OrdersList'
 
-import { useLoading } from '../../hooks/loading';
+import { useGlobalStates } from '../../hooks/globalStates';
 import { useOrdersRoute } from '../../hooks/useOrdersRoute';
 
 import { styles } from './styles';
@@ -14,7 +14,7 @@ interface Props {
 };
 
 export function RouteOrdersList({ routeId }: Props) {
-  const { loading } = useLoading();
+  const { loading } = useGlobalStates();
   const {
     notDeliveredOrders,
     deliveredOrders,

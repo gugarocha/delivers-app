@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/core";
 import { Alert } from "react-native";
 
-import { useLoading } from "./loading";
+import { useGlobalStates } from "./globalStates";
 import { ProductProps, ProductsCategoryProps } from "../utils/types";
 import {
   getActiveProducts,
@@ -12,7 +12,7 @@ import {
 } from "../services/Products";
 
 export function useProducts() {
-  const { setLoading } = useLoading();
+  const { setLoading } = useGlobalStates();
   const [activeProducts, setActiveProducts] = useState<ProductsCategoryProps[]>([]);
   const [inactiveProducts, setInactiveProducts] = useState<ProductsCategoryProps[]>([]);
 

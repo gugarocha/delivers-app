@@ -8,12 +8,14 @@ import { SpinLoading } from '../../components/SpinLoading';
 import { RouteCard } from '../../components/RouteCard';
 import { NewRouteCard } from '../../components/NewRouteCard';
 
+import { useGlobalStates } from '../../hooks/globalStates';
 import { useRoutes } from '../../hooks/useRoutes';
 
 import { styles } from './styles';
 
 export default function RoutesList() {
-  const { routes, loading } = useRoutes();
+  const { loading } = useGlobalStates();
+  const { routes } = useRoutes();
 
   const [modalVisible, setModalVisible] = useState(false);
 

@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "@expo-google-fonts/roboto": "^0.2.0",
+    "@react-native-async-storage/async-storage": "^1.13.0",
     "@react-native-community/checkbox": "^0.5.8",
     "@react-native-community/datetimepicker": "3.2.0",
     "@react-native-community/masked-view": "0.1.10",
+    "@react-native-community/netinfo": "6.0.0",
     "@react-navigation/bottom-tabs": "^5.11.11",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",

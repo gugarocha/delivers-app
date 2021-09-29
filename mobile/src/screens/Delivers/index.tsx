@@ -8,7 +8,7 @@ import { SpinLoading } from '../../components/SpinLoading';
 import { OrdersList } from '../../components/OrdersList';
 
 import { useSelectedProducts } from '../../hooks/selectedProducts';
-import { useLoading } from '../../hooks/loading';
+import { useGlobalStates } from '../../hooks/globalStates';
 import { useDelivers } from '../../hooks/useDelivers';
 
 import { OrderProductsProps, OrdersProps } from '../../utils/types';
@@ -19,7 +19,7 @@ export default function Delivers() {
   const navigation = useNavigation();
 
   const { setSelectedProducts } = useSelectedProducts();
-  const { loading } = useLoading();
+  const { loading } = useGlobalStates();
   const { orders, fetchData } = useDelivers();
 
   function handleNavigateToOrderCreate() {

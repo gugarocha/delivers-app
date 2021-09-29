@@ -10,7 +10,7 @@ import { StatusBar } from 'expo-status-bar';
 
 import Routes from './src/routes';
 
-import { LoadingProvider } from './src/hooks/loading';
+import { GlobalStatesProvider } from './src/hooks/globalStates';
 import { SelectedProductsProvider } from './src/hooks/selectedProducts';
 
 export default function App() {
@@ -28,11 +28,11 @@ export default function App() {
     <>
       <StatusBar style="light" />
 
-      <LoadingProvider>
+      <GlobalStatesProvider>
         <SelectedProductsProvider>
           <Routes />
         </SelectedProductsProvider>
-      </LoadingProvider>
+      </GlobalStatesProvider>
     </>
   );
 };

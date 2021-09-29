@@ -3,7 +3,7 @@ import { View, SectionList, Text } from 'react-native';
 
 import { SpinLoading } from '../SpinLoading';
 
-import { useLoading } from '../../hooks/loading';
+import { useGlobalStates } from '../../hooks/globalStates';
 import { useOrdersRoute } from '../../hooks/useOrdersRoute';
 
 import { styles } from './styles';
@@ -62,7 +62,7 @@ interface RouteSummaryProps {
 };
 
 export function RouteSummary({ routeId }: RouteSummaryProps) {
-  const { loading } = useLoading();
+  const { loading } = useGlobalStates();
   const { summary } = useOrdersRoute(routeId);
 
   return (

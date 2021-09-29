@@ -8,10 +8,10 @@ import {
 } from '../services/Orders';
 
 import { OrdersProps, SetDeliverStatusProps } from "../utils/types";
-import { useLoading } from "./loading";
+import { useGlobalStates } from "./globalStates";
 
 export function useOrder() {
-  const { setLoading } = useLoading();
+  const { setLoading } = useGlobalStates();
 
   async function addOrder(data: OrdersProps) {
     try {

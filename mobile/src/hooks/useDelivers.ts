@@ -1,13 +1,13 @@
 import { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/core';
 
-import { useLoading } from './loading';
+import { useGlobalStates } from './globalStates';
 import { getDelivers } from '../services/Delivers';
 
 import { OrdersProps } from '../utils/types';
 
 export function useDelivers() {
-  const { setLoading } = useLoading();
+  const { setLoading } = useGlobalStates();
   const [orders, setOrders] = useState<OrdersProps[]>([]);
 
   async function fetchData() {  

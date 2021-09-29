@@ -5,7 +5,7 @@ import { SpinLoading } from '../SpinLoading';
 import { Product } from '../Product';
 
 import { ProductProps, ProductsCategoryProps } from '../../utils/types';
-import { useLoading } from '../../hooks/loading';
+import { useGlobalStates } from '../../hooks/globalStates';
 
 import { styles } from './styles';
 
@@ -22,7 +22,7 @@ export function ListProducts({
   ListHeaderComponent,
   ListFooterComponent
 }: Props) {
-  const { loading } = useLoading();
+  const { loading } = useGlobalStates();
 
   return (
     loading

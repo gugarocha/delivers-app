@@ -4,7 +4,8 @@ import { View, SectionList, Text } from 'react-native';
 import { SpinLoading } from '../SpinLoading';
 
 import { useGlobalStates } from '../../hooks/globalStates';
-import { useOrdersRoute } from '../../hooks/useOrdersRoute';
+
+import { SummaryProps } from '../../utils/types';
 
 import { styles } from './styles';
 
@@ -58,12 +59,11 @@ function SectionHeader({ category, itemsCategoryTotal }: SectionHeaderProps) {
 };
 
 interface RouteSummaryProps {
-  routeId: number
+  summary: SummaryProps;
 };
 
-export function RouteSummary({ routeId }: RouteSummaryProps) {
+export function RouteSummary({ summary }: RouteSummaryProps) {
   const { loading } = useGlobalStates();
-  const { summary } = useOrdersRoute(routeId);
 
   return (
     loading ? (

@@ -18,6 +18,7 @@ import { RouteSummary } from '../../components/RouteSummary';
 
 import { useSelectedProducts } from '../../hooks/selectedProducts';
 import { useRoutes } from '../../hooks/useRoutes';
+import { useOrdersRoute } from '../../hooks/useOrdersRoute';
 
 import { OrderProductsProps, OrdersProps, RouteProps } from '../../utils/types';
 import { formatDate } from '../../utils/formatDate';
@@ -43,6 +44,13 @@ export default function OrdersRoute() {
     date: new Date(selectedRoute.date),
     name: selectedRoute.name
   });
+
+  const {
+    notDeliveredOrders,
+    deliveredOrders,
+    summary,
+    fetchData
+  } = useOrdersRoute(routeInfo.routeId);
 
   function closeRouteDataModal() {
     setShowRouteDataModal(false);
@@ -141,8 +149,12 @@ export default function OrdersRoute() {
           pagingEnabled
           showsHorizontalScrollIndicator={false}
         >
-          <RouteOrdersList routeId={routeInfo.routeId} />
-          <RouteSummary routeId={routeInfo.routeId} />
+          <RouteOrdersList
+            notDeliveredOrders={notDeliveredOrders}
+            deliveredOrders={deliveredOrders}
+            fetchData={fetchData}
+          />
+          <RouteSummary summary={summary} />
         </ScrollView>
       </View>
     </>

@@ -5,21 +5,19 @@ import { SpinLoading } from '../SpinLoading';
 import { OrdersList } from '../OrdersList'
 
 import { useGlobalStates } from '../../hooks/globalStates';
-import { useOrdersRoute } from '../../hooks/useOrdersRoute';
+
+import { OrdersProps } from '../../utils/types';
 
 import { styles } from './styles';
 
 interface Props {
-  routeId: number;
+  notDeliveredOrders: OrdersProps[];
+  deliveredOrders: OrdersProps[];
+  fetchData: () => Promise<void>;
 };
 
-export function RouteOrdersList({ routeId }: Props) {
+export function RouteOrdersList({ notDeliveredOrders, deliveredOrders, fetchData }: Props) {
   const { loading } = useGlobalStates();
-  const {
-    notDeliveredOrders,
-    deliveredOrders,
-    fetchData
-  } = useOrdersRoute(routeId);
 
   return (
     loading

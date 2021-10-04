@@ -12,7 +12,7 @@ import {
 } from "../services/Products";
 
 export function useProducts() {
-  const { setLoading } = useGlobalStates();
+  const { isConnected, setLoading } = useGlobalStates();
   const [activeProducts, setActiveProducts] = useState<ProductsCategoryProps[]>([]);
   const [inactiveProducts, setInactiveProducts] = useState<ProductsCategoryProps[]>([]);
 
@@ -21,17 +21,22 @@ export function useProducts() {
       async function fetchProducts() {
         setLoading(true);
 
-        const active = await getActiveProducts();
-        setActiveProducts(active);
+        if (isConnected) {
+          const active = await getActiveProducts();
+          setActiveProducts(active);
 
-        const inactive = await getInactiveProducts();
-        setInactiveProducts(inactive);
+          const inactive = await getInactiveProducts();
+          setInactiveProducts(inactive);
+
+        } else {
+          return Alert.alert('Erro', 'Verifique a conexão e tente novamente');
+        };
 
         setLoading(false);
       };
 
       fetchProducts();
-    }, [])
+    }, [isConnected])
   );
 
   async function createProduct({ name, categoryId }: ProductProps) {

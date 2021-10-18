@@ -2,7 +2,9 @@ import { useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/core";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { useGlobalStates } from "./globalStates";
+import { useLoading } from './useLoading';
+import { useConnection } from "./useConnection";
+
 import { getOrders, getSummary } from "../services/Routes";
 
 import { OrdersProps, SummaryProps } from "../utils/types";
@@ -12,7 +14,8 @@ import {
 } from '../configs/database';
 
 export function useOrdersRoute(routeId: number) {
-  const { isConnected, setLoading } = useGlobalStates();
+  const { enableLoading, disableLoading } = useLoading();
+  const { isConnected } = useConnection();
 
   const [notDeliveredOrders, setNotDeliveredOrders] = useState<OrdersProps[]>([]);
   const [deliveredOrders, setDeliveredOrders] = useState<OrdersProps[]>([]);
@@ -28,7 +31,7 @@ export function useOrdersRoute(routeId: number) {
   };
 
   async function fetchData() {
-    setLoading(true);
+    enableLoading();
 
     if (isConnected) {
       const ordersData = await getOrders(routeId);
@@ -49,7 +52,7 @@ export function useOrdersRoute(routeId: number) {
         );
     };
 
-    setLoading(false);
+    disableLoading();
   };
 
   useFocusEffect(

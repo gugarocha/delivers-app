@@ -29,8 +29,8 @@ export async function newRoute({ date, name }: NewRouteProps) {
       date: String(date),
       name
     };
-  } catch (error) {
-    throw new Error(error);
+  } catch {
+    throw new Error();
   };
 };
 
@@ -44,8 +44,8 @@ export async function editRouteInfo({ routeId, date, name }: EditRouteProps) {
     const data = { date, name };
 
     await api.put(`/routes/${routeId}`, data);
-  } catch (error) {
-    throw new Error(error);
+  } catch {
+    throw new Error();
   };
 };
 
@@ -68,7 +68,7 @@ export async function getSummary(routeId: number) {
 export async function setFinished(routeId: number) {
   try {
     await api.put(`/routes/${routeId}/finished`);
-  } catch (error) {
-    throw new Error(error);
+  } catch {
+    throw new Error();
   };
 };

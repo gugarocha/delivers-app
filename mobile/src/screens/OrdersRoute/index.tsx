@@ -16,7 +16,7 @@ import { RouteDataModal } from '../../components/RouteDataModal';
 import { RouteOrdersList } from '../../components/RouteOrdersList';
 import { RouteSummary } from '../../components/RouteSummary';
 
-import { useSelectedProducts } from '../../hooks/selectedProducts';
+import { useSelectedProducts } from '../../hooks/useSelectedProducts';
 import { useRoutes } from '../../hooks/useRoutes';
 import { useOrdersRoute } from '../../hooks/useOrdersRoute';
 

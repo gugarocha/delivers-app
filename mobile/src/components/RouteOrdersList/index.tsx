@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { SpinLoading } from '../SpinLoading';
 import { OrdersList } from '../OrdersList'
 
-import { useGlobalStates } from '../../hooks/globalStates';
+import { useLoading } from '../../hooks/useLoading';
 
 import { OrdersProps } from '../../utils/types';
 
@@ -17,10 +17,10 @@ interface Props {
 };
 
 export function RouteOrdersList({ notDeliveredOrders, deliveredOrders, fetchData }: Props) {
-  const { loading } = useGlobalStates();
+  const { isLoading } = useLoading();
 
   return (
-    loading
+    isLoading
       ? (
         <View style={styles.contentContainer}>
           <SpinLoading />

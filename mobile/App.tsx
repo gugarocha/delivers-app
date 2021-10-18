@@ -1,4 +1,5 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import {
   useFonts,
   Roboto_300Light,
@@ -8,10 +9,9 @@ import {
 import AppLoading from 'expo-app-loading';
 import { StatusBar } from 'expo-status-bar';
 
-import Routes from './src/routes';
+import { store } from './src/store';
 
-import { GlobalStatesProvider } from './src/hooks/globalStates';
-import { SelectedProductsProvider } from './src/hooks/selectedProducts';
+import Routes from './src/routes';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -28,11 +28,9 @@ export default function App() {
     <>
       <StatusBar style="light" />
 
-      <GlobalStatesProvider>
-        <SelectedProductsProvider>
-          <Routes />
-        </SelectedProductsProvider>
-      </GlobalStatesProvider>
+      <Provider store={store}>
+        <Routes />
+      </Provider>
     </>
   );
 };

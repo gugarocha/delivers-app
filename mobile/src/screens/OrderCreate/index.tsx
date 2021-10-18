@@ -18,7 +18,7 @@ import { CheckBoxGroup } from '../../components/CheckBoxGroup';
 import { ActionButton } from '../../components/ActionButton';
 
 import { useOrder } from '../../hooks/useOrder';
-import { useSelectedProducts } from '../../hooks/selectedProducts';
+import { useSelectedProducts } from '../../hooks/useSelectedProducts';
 import { OrdersProps } from '../../utils/types';
 
 import { styles } from './styles';

@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons';
 
 import { SetAmountModal } from '../SetAmountModal';
 
-import { useSelectedProducts } from '../../hooks/selectedProducts';
+import { useSelectedProducts } from '../../hooks/useSelectedProducts';
 import { OrderProductsProps } from '../../utils/types';
 
 import { styles } from './styles';

@@ -2,7 +2,9 @@ import { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/core';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { useGlobalStates } from './globalStates';
+import { useLoading } from './useLoading';
+import { useConnection } from './useConnection';
+
 import {
   getRoutes,
   newRoute,
@@ -15,12 +17,14 @@ import { COLLECTION_ROUTES } from '../configs/database';
 
 export function useRoutes() {
   const [routes, setRoutes] = useState<RouteProps[]>([]);
-  const { isConnected, setLoading } = useGlobalStates();
+
+  const { enableLoading, disableLoading } = useLoading();
+  const { isConnected } = useConnection();
 
   useFocusEffect(
     useCallback(() => {
       async function fetchData() {
-        setLoading(true);
+        enableLoading();
 
         if (isConnected) {
           const dataFromServer = await getRoutes();
@@ -35,7 +39,7 @@ export function useRoutes() {
       };
 
       fetchData();
-      setLoading(false);
+      disableLoading();
     }, [isConnected])
   );
 

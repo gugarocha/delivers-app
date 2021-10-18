@@ -4,8 +4,8 @@ import { View, SectionList, Text } from 'react-native';
 import { SpinLoading } from '../SpinLoading';
 import { Product } from '../Product';
 
+import { useLoading } from '../../hooks/useLoading';
 import { ProductProps, ProductsCategoryProps } from '../../utils/types';
-import { useGlobalStates } from '../../hooks/globalStates';
 
 import { styles } from './styles';
 
@@ -22,10 +22,10 @@ export function ListProducts({
   ListHeaderComponent,
   ListFooterComponent
 }: Props) {
-  const { loading } = useGlobalStates();
+  const { isLoading } = useLoading();
 
   return (
-    loading
+    isLoading
       ? <SpinLoading />
       : (
         <View style={styles.container}>

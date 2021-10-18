@@ -3,7 +3,7 @@ import { View, SectionList, Text } from 'react-native';
 
 import { SpinLoading } from '../SpinLoading';
 
-import { useGlobalStates } from '../../hooks/globalStates';
+import { useLoading } from '../../hooks/useLoading';
 
 import { SummaryProps } from '../../utils/types';
 
@@ -63,10 +63,10 @@ interface RouteSummaryProps {
 };
 
 export function RouteSummary({ summary }: RouteSummaryProps) {
-  const { loading } = useGlobalStates();
+  const { isLoading } = useLoading();
 
   return (
-    loading ? (
+    isLoading ? (
       <View style={styles.container}>
         <SpinLoading />
       </View>

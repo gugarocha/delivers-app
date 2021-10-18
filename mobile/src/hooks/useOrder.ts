@@ -1,5 +1,7 @@
 import { Alert } from "react-native";
 
+import { useLoading } from "./useLoading";
+
 import {
   createOrder,
   editOrder,
@@ -8,30 +10,29 @@ import {
 } from '../services/Orders';
 
 import { OrdersProps, SetDeliverStatusProps } from "../utils/types";
-import { useGlobalStates } from "./globalStates";
 
 export function useOrder() {
-  const { setLoading } = useGlobalStates();
+  const { enableLoading, disableLoading } = useLoading();
 
   async function addOrder(data: OrdersProps) {
     try {
-      setLoading(true);
+      enableLoading();
 
       await createOrder(data);
 
-      setLoading(false);
-    } catch (error) {
+      disableLoading();
+    } catch {
       Alert.alert('Erro ao criar novo pedido');
     };
   };
 
   async function updateOrder(data: OrdersProps) {
     try {
-      setLoading(true);
+      enableLoading();
 
       await editOrder(data);
 
-      setLoading(false);
+      disableLoading();
     } catch {
       Alert.alert('Erro ao salvar dados do pedido');
     };
@@ -42,7 +43,7 @@ export function useOrder() {
     fetchData: () => Promise<void>
   ) {
     try {
-      setLoading(true);
+      enableLoading();
 
       await changeDeliverStatus(data);
       await fetchData();
@@ -56,11 +57,11 @@ export function useOrder() {
     fetchData: () => Promise<void>
   ) {
     try {
-      setLoading(true);
+      enableLoading();
 
       await deleteOrder(id);
       await fetchData();
-    } catch (error) {
+    } catch {
       Alert.alert('Erro ao remover pedido');
     };
   };

@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import NetInfo from '@react-native-community/netinfo'; 
+
+import { useConnection } from '../hooks/useConnection';
 
 import TabRoutes from './tab.routes';
 import OrdersRoute from '../screens/OrdersRoute';
@@ -10,6 +13,13 @@ import ProductCreate from '../screens/ProductCreate';
 
 export default function Routes() {
   const { Navigator, Screen } = createStackNavigator();
+  const { setIsConnected } = useConnection();
+
+  useEffect(() => {
+    NetInfo.addEventListener(state => {
+      setIsConnected(state.isConnected);
+    });
+  });
 
   return (
     <NavigationContainer>

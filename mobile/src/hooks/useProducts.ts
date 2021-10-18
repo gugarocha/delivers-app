@@ -1,25 +1,30 @@
-import { useState, useCallback } from "react";
-import { useFocusEffect } from "@react-navigation/core";
-import { Alert } from "react-native";
+import { useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/core';
+import { Alert } from 'react-native';
 
-import { useGlobalStates } from "./globalStates";
-import { ProductProps, ProductsCategoryProps } from "../utils/types";
+import { useLoading } from './useLoading';
+import { useConnection } from './useConnection';
+
 import {
   getActiveProducts,
   getInactiveProducts,
   addProduct,
   editProduct
-} from "../services/Products";
+} from '../services/Products';
+
+import { ProductProps, ProductsCategoryProps } from '../utils/types';
 
 export function useProducts() {
-  const { isConnected, setLoading } = useGlobalStates();
+  const { enableLoading, disableLoading } = useLoading();
+  const { isConnected } = useConnection();
+
   const [activeProducts, setActiveProducts] = useState<ProductsCategoryProps[]>([]);
   const [inactiveProducts, setInactiveProducts] = useState<ProductsCategoryProps[]>([]);
 
   useFocusEffect(
     useCallback(() => {
       async function fetchProducts() {
-        setLoading(true);
+        enableLoading();
 
         if (isConnected) {
           const active = await getActiveProducts();
@@ -32,7 +37,7 @@ export function useProducts() {
           return Alert.alert('Erro', 'Verifique a conexão e tente novamente');
         };
 
-        setLoading(false);
+        disableLoading();
       };
 
       fetchProducts();
@@ -41,24 +46,24 @@ export function useProducts() {
 
   async function createProduct({ name, categoryId }: ProductProps) {
     try {
-      setLoading(true);
+      enableLoading();
 
       await addProduct({ name, categoryId });
 
-      setLoading(false);
-    } catch (error) {
+      disableLoading();
+    } catch {
       Alert.alert('Erro ao criar produto');
     };
   };
 
   async function updateProduct(data: ProductProps) {
     try {
-      setLoading(true);
+      enableLoading();
 
       await editProduct(data);
 
-      setLoading(false);
-    } catch (error) {
+      disableLoading();
+    } catch {
       Alert.alert('Erro ao atualizar produto');
     };
   };

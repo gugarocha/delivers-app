@@ -3,7 +3,7 @@ import { Text, TextInput, View } from 'react-native';
 
 import { ActionModal } from '../ActionModal';
 
-import { useSelectedProducts } from '../../hooks/selectedProducts';
+import { useSelectedProducts } from '../../hooks/useSelectedProducts';
 import { OrderProductsProps } from '../../utils/types';
 
 import { styles } from './styles';

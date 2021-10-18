@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/core';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
-import { useSelectedProducts } from '../../hooks/selectedProducts';
+import { useSelectedProducts } from '../../hooks/useSelectedProducts';
 import { OrdersProps } from '../../utils/types';
 
 import { styles } from './styles';

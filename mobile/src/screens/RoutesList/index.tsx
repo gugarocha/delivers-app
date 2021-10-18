@@ -8,13 +8,13 @@ import { SpinLoading } from '../../components/SpinLoading';
 import { RouteCard } from '../../components/RouteCard';
 import { NewRouteCard } from '../../components/NewRouteCard';
 
-import { useGlobalStates } from '../../hooks/globalStates';
+import { useLoading } from '../../hooks/useLoading';
 import { useRoutes } from '../../hooks/useRoutes';
 
 import { styles } from './styles';
 
 export default function RoutesList() {
-  const { loading } = useGlobalStates();
+  const { isLoading } = useLoading();
   const { routes } = useRoutes();
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -26,7 +26,7 @@ export default function RoutesList() {
   return (
     <View style={styles.container}>
       <Header title='Rotas' showBackButton={false}>
-        <TouchableOpacity >
+        <TouchableOpacity>
           <Feather name='filter' size={24} color='#FFF' />
         </TouchableOpacity>
       </Header>
@@ -38,7 +38,7 @@ export default function RoutesList() {
 
 
       <View style={styles.container}>
-        {loading
+        {isLoading
           ? <SpinLoading />
           : (
             <FlatList

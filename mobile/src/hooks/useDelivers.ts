@@ -1,40 +1,36 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/core';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { useRedux } from './useRedux';
 import { useLoading } from './useLoading';
 import { useConnection } from './useConnection';
 
+import { AppThunk } from '../store';
+import { setDelivers } from '../store/slices/delivers';
+
 import { getDelivers } from '../services/Delivers';
 
-import { OrdersProps } from '../utils/types';
-import { COLLECTION_DELIVERS } from '../configs/database';
-
 export function useDelivers() {
+  const { selector, dispatch } = useRedux();
   const { enableLoading, disableLoading } = useLoading();
   const { isConnected } = useConnection();
-  
-  const [orders, setOrders] = useState<OrdersProps[]>([]);
 
-  async function fetchData() {
+  const orders = selector(state => state.delivers.delivers);
+
+  const fetchData = (): AppThunk => async dispatch => {
     enableLoading();
-
-    if (isConnected) {
-      const dataFromServer = await getDelivers();
-      setOrders(dataFromServer);
-
-      await AsyncStorage.setItem(COLLECTION_DELIVERS, JSON.stringify(dataFromServer));
-    } else {
-      const storage = await AsyncStorage.getItem(COLLECTION_DELIVERS);
-      storage && setOrders(JSON.parse(storage));
+  
+    if(isConnected) {
+      const response = await getDelivers();
+      dispatch(setDelivers(response));
     };
-
+  
     disableLoading();
   };
 
   useFocusEffect(
     useCallback(() => {
-      fetchData();
+      dispatch(fetchData());
     }, [])
   );
 

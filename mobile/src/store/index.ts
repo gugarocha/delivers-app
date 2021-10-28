@@ -8,11 +8,12 @@ import loadingReducer from './slices/loading';
 import connectionReducer from './slices/connection'
 import productsReducer from './slices/products';
 import deliversReducer from './slices/delivers';
+import routesReducer from './slices/routes';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['delivers']
+  whitelist: ['delivers', 'routes', 'ordersRoute']
 };
 
 export const store = configureStore({
@@ -21,6 +22,7 @@ export const store = configureStore({
     connection: connectionReducer,
     products: productsReducer,
     delivers: persistReducer(persistConfig, deliversReducer),
+    routes: persistReducer(persistConfig, routesReducer)
   },
   middleware: [thunk]
 });

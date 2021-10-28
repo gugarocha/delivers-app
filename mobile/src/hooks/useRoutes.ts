@@ -1,7 +1,7 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/core';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { useRedux } from './useRedux';
 import { useLoading } from './useLoading';
 import { useConnection } from './useConnection';
 
@@ -11,35 +11,31 @@ import {
   editRouteInfo,
   setFinished
 } from '../services/Routes';
+import { AppThunk } from '../store';
+import { setRoutes } from '../store/slices/routes';
 
-import { RouteProps } from '../utils/types';
-import { COLLECTION_ROUTES } from '../configs/database';
 
 export function useRoutes() {
-  const [routes, setRoutes] = useState<RouteProps[]>([]);
-
+  const { selector, dispatch } = useRedux();
   const { enableLoading, disableLoading } = useLoading();
   const { isConnected } = useConnection();
+  
+  const { routes } = selector(state => state.routes);
 
   useFocusEffect(
     useCallback(() => {
-      async function fetchData() {
+      const fetchRoutes = (): AppThunk => async dispatch => {
         enableLoading();
 
         if (isConnected) {
-          const dataFromServer = await getRoutes();
-          setRoutes(dataFromServer);
-
-          await AsyncStorage.setItem(COLLECTION_ROUTES, JSON.stringify(dataFromServer));
-        } else {
-          const storage = await AsyncStorage.getItem(COLLECTION_ROUTES);
-
-          storage && setRoutes(JSON.parse(storage));
+          const response = await getRoutes();
+          dispatch(setRoutes(response));
         };
+
+        disableLoading();
       };
 
-      fetchData();
-      disableLoading();
+      dispatch(fetchRoutes());
     }, [isConnected])
   );
 

@@ -13,7 +13,7 @@ import { styles } from './styles';
 interface Props {
   notDeliveredOrders: OrdersProps[];
   deliveredOrders: OrdersProps[];
-  fetchData: () => Promise<void>;
+  fetchData: () => void;
 };
 
 export function RouteOrdersList({ notDeliveredOrders, deliveredOrders, fetchData }: Props) {

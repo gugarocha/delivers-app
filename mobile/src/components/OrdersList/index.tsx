@@ -12,7 +12,7 @@ import { styles } from './styles';
 
 interface Props {
   data: OrdersProps[];
-  fetchData: () => Promise<void>;
+  fetchData: () => void;
   isDeliveredOrders?: boolean;
   ListFooterComponent?: React.ReactElement;
 };

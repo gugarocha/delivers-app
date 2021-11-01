@@ -49,7 +49,7 @@ export default function OrdersRoute() {
     notDeliveredOrders,
     deliveredOrders,
     summary,
-    fetchData
+    fetchOrdersRoute
   } = useOrdersRoute(routeInfo.routeId);
 
   function closeRouteDataModal() {
@@ -152,7 +152,7 @@ export default function OrdersRoute() {
           <RouteOrdersList
             notDeliveredOrders={notDeliveredOrders}
             deliveredOrders={deliveredOrders}
-            fetchData={fetchData}
+            fetchData={fetchOrdersRoute}
           />
           <RouteSummary summary={summary} />
         </ScrollView>

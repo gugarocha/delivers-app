@@ -1,6 +1,6 @@
-import { Alert } from "react-native";
+import { Alert } from 'react-native';
 
-import { useLoading } from "./useLoading";
+import { useLoading } from './useLoading';
 
 import {
   createOrder,
@@ -9,7 +9,7 @@ import {
   deleteOrder
 } from '../services/Orders';
 
-import { OrdersProps, SetDeliverStatusProps } from "../utils/types";
+import { OrdersProps, SetDeliverStatusProps } from '../utils/types';
 
 export function useOrder() {
   const { enableLoading, disableLoading } = useLoading();
@@ -40,13 +40,13 @@ export function useOrder() {
 
   async function setDeliverStatus(
     data: SetDeliverStatusProps,
-    fetchData: () => Promise<void>
+    fetchData: () => void
   ) {
     try {
       enableLoading();
 
       await changeDeliverStatus(data);
-      await fetchData();
+      fetchData();
     } catch {
       Alert.alert('Erro ao definir o status de entrega do pedido');
     };
@@ -54,13 +54,13 @@ export function useOrder() {
 
   async function removeOrder(
     id: number,
-    fetchData: () => Promise<void>
+    fetchData: () => void
   ) {
     try {
       enableLoading();
 
       await deleteOrder(id);
-      await fetchData();
+      fetchData();
     } catch {
       Alert.alert('Erro ao remover pedido');
     };

@@ -4,7 +4,10 @@ import { OrdersProps, RouteProps, SummaryProps } from '../../utils/types';
 
 interface SetOrdersRouteProps {
   routeId: number;
-  orders: OrdersProps[];
+  orders: {
+    delivered: OrdersProps[],
+    notDelivered: OrdersProps[],
+  };
   summary: SummaryProps;
 };
 

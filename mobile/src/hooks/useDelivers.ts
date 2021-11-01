@@ -28,11 +28,15 @@ export function useDelivers() {
     disableLoading();
   };
 
+  const fetchDelivers = () => {
+    dispatch(fetchData());
+  };
+
   useFocusEffect(
     useCallback(() => {
-      dispatch(fetchData());
+      fetchDelivers();
     }, [])
   );
 
-  return { orders, fetchData };
+  return { orders, fetchDelivers };
 };

@@ -1,18 +1,21 @@
 import { Alert } from 'react-native';
 
 import { useLoading } from './useLoading';
+import { useRedux } from './useRedux';
 
 import {
   createOrder,
   editOrder,
-  changeDeliverStatus,
+  changeIsDeliveredStatus,
   deleteOrder
 } from '../services/Orders';
+import { setOrderDeliveredStatus } from '../store/slices/routes';
 
-import { OrdersProps, SetDeliverStatusProps } from '../utils/types';
+import { OrdersProps, SetIsDeliveredStatusProps } from '../utils/types';
 
 export function useOrder() {
   const { enableLoading, disableLoading } = useLoading();
+  const { dispatch } = useRedux();
 
   async function addOrder(data: OrdersProps) {
     try {
@@ -38,15 +41,11 @@ export function useOrder() {
     };
   };
 
-  async function setDeliverStatus(
-    data: SetDeliverStatusProps,
-    fetchData: () => void
-  ) {
-    try {
-      enableLoading();
+  async function setIsDeliveredStatus(data: SetIsDeliveredStatusProps) {
+    dispatch(setOrderDeliveredStatus(data));
 
-      await changeDeliverStatus(data);
-      fetchData();
+    try {
+      await changeIsDeliveredStatus(data);
     } catch {
       Alert.alert('Erro ao definir o status de entrega do pedido');
     };
@@ -69,7 +68,7 @@ export function useOrder() {
   return {
     addOrder,
     updateOrder,
-    setDeliverStatus,
+    setIsDeliveredStatus,
     removeOrder
   };
 };

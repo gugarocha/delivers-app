@@ -1,4 +1,4 @@
-import { OrdersProps, SetDeliverStatusProps } from "../utils/types";
+import { OrdersProps, SetIsDeliveredStatusProps } from "../utils/types";
 
 import api from "./api";
 
@@ -18,11 +18,11 @@ export async function editOrder(data: OrdersProps) {
   };
 };
 
-export async function changeDeliverStatus(data: SetDeliverStatusProps) {
+export async function changeIsDeliveredStatus(data: SetIsDeliveredStatusProps) {
   try {
     await api.put(
       `/orders/${data.orderId}/setDeliverStatus`,
-      { deliverStatus: data.deliverStatus }
+      { deliverStatus: data.isDeliveredStatus }
     );
   } catch {
     throw new Error();

@@ -9,7 +9,7 @@ import { getOrders, getSummary } from "../services/Routes";
 import { AppThunk } from "../store";
 import { setOrdersRoute } from '../store/slices/routes';
 
-import { OrdersProps, SummaryProps } from "../utils/types";
+import { SummaryProps } from "../utils/types";
 
 export function useOrdersRoute(routeId: number) {
   const { selector, dispatch } = useRedux();
@@ -26,16 +26,10 @@ export function useOrdersRoute(routeId: number) {
       const ordersData = await getOrders(routeId);
       const summaryData = await getSummary(routeId);
 
-      const deliveredOrders = ordersData.filter(item => item.delivered);
-      const notDeliveredOrders = ordersData.filter(item => !item.delivered);
-
       dispatch(
         setOrdersRoute({
           routeId,
-          orders: {
-            delivered: deliveredOrders,
-            notDelivered: notDeliveredOrders
-          },
+          orders: ordersData,
           summary: summaryData,
         })
       );
@@ -55,8 +49,8 @@ export function useOrdersRoute(routeId: number) {
   );
 
   return {
-    notDeliveredOrders: selectedOrdersRoute?.orders.notDelivered || <OrdersProps[]>[],
-    deliveredOrders: selectedOrdersRoute?.orders.delivered || <OrdersProps[]>[],
+    notDeliveredOrders: selectedOrdersRoute?.orders.filter(item => !item.delivered) || [],
+    deliveredOrders: selectedOrdersRoute?.orders.filter(item => item.delivered) || [],
     summary: selectedOrdersRoute?.summary || <SummaryProps>{},
     fetchOrdersRoute
   };

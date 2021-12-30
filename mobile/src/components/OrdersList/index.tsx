@@ -26,7 +26,7 @@ export function OrdersList({
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState<number>();
 
-  const { setDeliverStatus, removeOrder } = useOrder();
+  const { setIsDeliveredStatus, removeOrder } = useOrder();
 
   function closeModal() {
     setShowModal(false);
@@ -39,7 +39,7 @@ export function OrdersList({
 
   async function handleConfirmDelete() {
     closeModal();
-    
+
     if (selectedId) {
       await removeOrder(selectedId, fetchData);
     };
@@ -76,10 +76,11 @@ export function OrdersList({
           <OrderCard
             data={item}
             changeDeliverStatus={() =>
-              setDeliverStatus({
+              setIsDeliveredStatus({
+                routeId: item.routeId,
                 orderId: item.id,
-                deliverStatus: !item.delivered
-              }, fetchData)
+                isDeliveredStatus: !item.delivered
+              })
             }
             handleDeleteOrder={() => openDeleteOrderModal(item.id)}
           />

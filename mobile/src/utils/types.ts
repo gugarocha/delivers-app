@@ -27,9 +27,10 @@ export type OrdersProps = {
   products: OrderProductsProps[];
 };
 
-export type SetDeliverStatusProps = {
-    orderId: number;
-    deliverStatus: boolean;
+export type SetIsDeliveredStatusProps = {
+  routeId: number | null | undefined;
+  orderId: number;
+  isDeliveredStatus: boolean;
 };
 
 export type CategoryProps = {

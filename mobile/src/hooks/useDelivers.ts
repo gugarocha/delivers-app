@@ -6,7 +6,7 @@ import { useLoading } from './useLoading';
 import { useConnection } from './useConnection';
 
 import { AppThunk } from '../store';
-import { setDelivers } from '../store/slices/delivers';
+import { setDelivers } from '../store/slices/orders';
 
 import { getDelivers } from '../services/Delivers';
 
@@ -15,16 +15,16 @@ export function useDelivers() {
   const { enableLoading, disableLoading } = useLoading();
   const { isConnected } = useConnection();
 
-  const orders = selector(state => state.delivers.delivers);
+  const { delivers } = selector(state => state.orders);
 
   const fetchData = (): AppThunk => async dispatch => {
     enableLoading();
-  
-    if(isConnected) {
+
+    if (isConnected) {
       const response = await getDelivers();
       dispatch(setDelivers(response));
     };
-  
+
     disableLoading();
   };
 
@@ -38,5 +38,5 @@ export function useDelivers() {
     }, [])
   );
 
-  return { orders, fetchDelivers };
+  return { delivers, fetchDelivers };
 };

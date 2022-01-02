@@ -7,7 +7,7 @@ import { useConnection } from "./useConnection";
 
 import { getOrders, getSummary } from "../services/Routes";
 import { AppThunk } from "../store";
-import { setOrdersRoute } from '../store/slices/routes';
+import { setOrdersRoute } from '../store/slices/orders';
 
 import { SummaryProps } from "../utils/types";
 
@@ -16,7 +16,7 @@ export function useOrdersRoute(routeId: number) {
   const { enableLoading, disableLoading } = useLoading();
   const { isConnected } = useConnection();
 
-  const { ordersRoute } = selector(state => state.routes);
+  const { ordersRoute } = selector(state => state.orders);
   const selectedOrdersRoute = ordersRoute.find(item => item.routeId === routeId);
 
   const fetchData = (): AppThunk => async dispatch => {

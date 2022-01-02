@@ -20,7 +20,7 @@ export default function Delivers() {
 
   const { setSelectedProducts } = useSelectedProducts();
   const { isLoading } = useLoading();
-  const { orders, fetchDelivers } = useDelivers();
+  const { delivers, fetchDelivers } = useDelivers();
 
   function handleNavigateToOrderCreate() {
     setSelectedProducts([] as OrderProductsProps[]);
@@ -56,7 +56,7 @@ export default function Delivers() {
         isLoading
           ? <SpinLoading />
           : <OrdersList
-            data={orders}
+            data={delivers}
             fetchData={fetchDelivers}
           />
       }

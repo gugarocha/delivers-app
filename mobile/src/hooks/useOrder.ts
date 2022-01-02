@@ -9,7 +9,7 @@ import {
   changeIsDeliveredStatus,
   deleteOrder
 } from '../services/Orders';
-import { setOrderDeliveredStatus } from '../store/slices/routes';
+import { setOrderDeliveredStatus } from '../store/slices/orders';
 
 import { OrdersProps, SetIsDeliveredStatusProps } from '../utils/types';
 

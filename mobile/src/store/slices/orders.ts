@@ -13,11 +13,12 @@ interface SetOrdersRouteProps {
   summary: SummaryProps;
 };
 
-export const routesSlice = createSlice({
-  name: 'routesSlice',
+export const ordersSlice = createSlice({
+  name: 'ordersSlice',
   initialState: {
     routes: <RouteProps[]>[],
-    ordersRoute: <SetOrdersRouteProps[]>[]
+    ordersRoute: <SetOrdersRouteProps[]>[],
+    delivers: <OrdersProps[]>[]
   },
   reducers: {
     setRoutes: (state, action: PayloadAction<RouteProps[]>) => {
@@ -34,11 +35,16 @@ export const routesSlice = createSlice({
         : state.ordersRoute.push(orders)
     },
 
+    setDelivers: (state, action: PayloadAction<OrdersProps[]>) => {
+      state.delivers = action.payload;
+    },
+
     setOrderDeliveredStatus: (state, action: PayloadAction<SetIsDeliveredStatusProps>) => {
       const { orderId, routeId, isDeliveredStatus } = action.payload;
-      const index = state.ordersRoute.findIndex(item => item.routeId === routeId);
 
-      if (index >= 0) {
+      if (routeId) {
+        const index = state.ordersRoute.findIndex(item => item.routeId === routeId);
+
         state.ordersRoute[index].orders.forEach(item => {
           if (item.id === orderId) {
             item.delivered = isDeliveredStatus;
@@ -46,15 +52,18 @@ export const routesSlice = createSlice({
 
           return item;
         });
-      };
+      } else {
+        state.delivers = state.delivers.filter(item => item.id !== orderId);
+      }
     }
   }
 });
 
-export default routesSlice.reducer;
+export default ordersSlice.reducer;
 
 export const {
   setRoutes,
   setOrdersRoute,
+  setDelivers,
   setOrderDeliveredStatus
-} = routesSlice.actions;
+} = ordersSlice.actions;

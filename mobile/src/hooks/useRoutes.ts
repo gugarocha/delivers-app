@@ -12,7 +12,7 @@ import {
   setFinished
 } from '../services/Routes';
 import { AppThunk } from '../store';
-import { setRoutes } from '../store/slices/routes';
+import { setRoutes } from '../store/slices/orders';
 
 
 export function useRoutes() {
@@ -20,7 +20,7 @@ export function useRoutes() {
   const { enableLoading, disableLoading } = useLoading();
   const { isConnected } = useConnection();
   
-  const { routes } = selector(state => state.routes);
+  const { routes } = selector(state => state.orders);
 
   useFocusEffect(
     useCallback(() => {

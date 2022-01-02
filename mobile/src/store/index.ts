@@ -7,8 +7,7 @@ import { AnyAction } from 'redux';
 import loadingReducer from './slices/loading';
 import connectionReducer from './slices/connection'
 import productsReducer from './slices/products';
-import deliversReducer from './slices/delivers';
-import routesReducer from './slices/routes';
+import ordersReducer from './slices/orders';
 
 const persistConfig = {
   key: 'root',
@@ -21,8 +20,7 @@ export const store = configureStore({
     loading: loadingReducer,
     connection: connectionReducer,
     products: productsReducer,
-    delivers: persistReducer(persistConfig, deliversReducer),
-    routes: persistReducer(persistConfig, routesReducer)
+    orders: persistReducer(persistConfig, ordersReducer)
   },
   middleware: [thunk]
 });

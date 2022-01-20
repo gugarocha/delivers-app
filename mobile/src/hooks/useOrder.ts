@@ -1,6 +1,7 @@
 import { Alert } from 'react-native';
 
 import { useLoading } from './useLoading';
+import { useConnection } from './useConnection';
 import { useRedux } from './useRedux';
 
 import {
@@ -9,13 +10,19 @@ import {
   changeIsDeliveredStatus,
   deleteOrder
 } from '../services/Orders';
+
+import { persistor } from '../store';
 import { setOrderDeliveredStatus } from '../store/slices/orders';
+import { addActionToQueue, removeHeadOfQueue } from '../store/slices/actionsQueue';
 
 import { OrdersProps, SetIsDeliveredStatusProps } from '../utils/types';
 
 export function useOrder() {
   const { enableLoading, disableLoading } = useLoading();
-  const { dispatch } = useRedux();
+  const { isConnected } = useConnection();
+  const { dispatch, selector } = useRedux();
+
+  const { queue } = selector(state => state.actionsQueue);
 
   async function addOrder(data: OrdersProps) {
     try {
@@ -42,12 +49,13 @@ export function useOrder() {
   };
 
   async function setIsDeliveredStatus(data: SetIsDeliveredStatusProps) {
+    await persistor.flush();
     dispatch(setOrderDeliveredStatus(data));
 
     try {
       await changeIsDeliveredStatus(data);
     } catch {
-      Alert.alert('Erro ao definir o status de entrega do pedido');
+      dispatch(addActionToQueue(data));
     };
   };
 
@@ -65,10 +73,23 @@ export function useOrder() {
     };
   };
 
+  async function executeActionsInQueue() {
+    if (isConnected && queue.length > 0) {
+      try {
+        await changeIsDeliveredStatus(queue[0]);
+
+        dispatch(removeHeadOfQueue());
+      } catch (error) {
+        console.log(error);
+      };
+    };
+  }
+
   return {
     addOrder,
     updateOrder,
     setIsDeliveredStatus,
-    removeOrder
+    removeOrder,
+    executeActionsInQueue
   };
 };

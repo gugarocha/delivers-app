@@ -8,8 +8,10 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native';
+import Modal from 'react-native-modal';
 import { Feather } from '@expo/vector-icons';
 
+import { SpinLoading } from '../../components/SpinLoading';
 import { Header } from '../../components/Header';
 import { AttachToRouteModal } from '../../components/AttachToRouteModal';
 import { FormContainer } from '../../components/FormContainer';
@@ -32,6 +34,7 @@ export default function OrderCreate() {
   const { selectedOrder } = route.params as Params;
 
   const [showModal, setShowModal] = useState(false);
+  const [isSendingData, setIsSendingData] = useState(false);
 
   const [routeId, setRouteId] = useState(selectedOrder.routeId);
   const [clientName, setClientName] = useState(selectedOrder.client);
@@ -79,6 +82,8 @@ export default function OrderCreate() {
   };
 
   async function handleConfirmButton() {
+    setIsSendingData(true);
+
     const data: OrdersProps = {
       id: selectedOrder.id,
       routeId: routeId || null,
@@ -96,105 +101,118 @@ export default function OrderCreate() {
 
       navigation.goBack();
     } else {
+      setIsSendingData(false);
+
       Alert.alert('Dados Incompletos', 'Preencha todos os campos para continuar');
     };
   };
 
   return (
-    <View style={styles.container}>
-      <Header title='Pedido'>
-        {!selectedOrder.routeId && (
-          <TouchableOpacity
-            onPress={() => setShowModal(true)}
-          >
-            <Feather name='paperclip' size={24} color='#FFF' />
-          </TouchableOpacity>
-        )}
-      </Header>
+    <>
+      <Modal
+        isVisible={isSendingData}
+        backdropOpacity={0.2}
+      >
+        <SpinLoading />
+      </Modal>
 
-      <AttachToRouteModal
-        isVisible={showModal}
-        routeId={routeId}
-        setRouteId={setRouteId}
-        closeModal={closeModal}
-      />
+      <View style={styles.container}>
+        <Header title='Pedido'>
+          {!selectedOrder.routeId && (
+            <TouchableOpacity
+              onPress={() => setShowModal(true)}
+            >
+              <Feather name='paperclip' size={24} color='#FFF' />
+            </TouchableOpacity>
+          )}
+        </Header>
 
-      <ScrollView contentContainerStyle={styles.scrollContentContainer}>
-        <FormContainer>
-          <Text style={styles.label}>
-            Cliente
-          </Text>
-          <TextInput
-            style={styles.clientNameInput}
-            value={clientName}
-            onChangeText={setClientName}
-            placeholder='Nome'
-            autoCorrect={false}
-          />
+        <AttachToRouteModal
+          isVisible={showModal}
+          routeId={routeId}
+          setRouteId={setRouteId}
+          closeModal={closeModal}
+        />
 
-          <Text style={styles.label}>
-            Produtos
-          </Text>
-          <SelectedProductsList />
-          <TouchableOpacity onPress={handleNavigateToAddProducts}>
-            <Text style={styles.addProductsText}>
-              + Adicionar Produtos
+        <ScrollView contentContainerStyle={styles.scrollContentContainer}>
+          <FormContainer>
+            <Text style={styles.label}>
+              Cliente
             </Text>
-          </TouchableOpacity>
+            <TextInput
+              style={styles.clientNameInput}
+              value={clientName}
+              onChangeText={setClientName}
+              placeholder='Nome'
+              autoCorrect={false}
+            />
 
-          <View style={styles.paymentSelectContainer}>
-            <View>
-              <Text style={styles.label}>
-                Pagamento
+            <Text style={styles.label}>
+              Produtos
+            </Text>
+            <SelectedProductsList />
+            <TouchableOpacity onPress={handleNavigateToAddProducts}>
+              <Text style={styles.addProductsText}>
+                + Adicionar Produtos
               </Text>
-              <CheckBoxGroup
-                values={['Pendente', 'Ok', 'Receber']}
-                selectedValue={payment}
-                setSelectedValue={setPayment as (value: string) => void}
+            </TouchableOpacity>
+
+            <View style={styles.paymentSelectContainer}>
+              <View>
+                <Text style={styles.label}>
+                  Pagamento
+                </Text>
+                <CheckBoxGroup
+                  values={['Pendente', 'Ok', 'Receber']}
+                  selectedValue={payment}
+                  setSelectedValue={setPayment as (value: string) => void}
+                />
+              </View>
+
+              {
+                payment === 'Receber' &&
+                <View style={styles.valueToReceiveContainer}>
+                  <Text style={styles.currencyPrefix}>R$ </Text>
+                  <TextInput
+                    style={styles.valueToReceiveInput}
+                    value={valueToReceive}
+                    onChangeText={handleChangeValueToReceive}
+                    placeholder='0,00'
+                    keyboardType='number-pad'
+                  />
+                </View>
+              }
+            </View>
+
+            <Text style={styles.label}>
+              Entregue
+            </Text>
+            <CheckBoxGroup
+              values={['Não', 'Sim']}
+              selectedValue={delivered}
+              setSelectedValue={setDelivered}
+            />
+          </FormContainer>
+
+          <View style={styles.footer}>
+            <View style={styles.button}>
+              <ActionButton
+                type='Cancelar'
+                onPress={handleCancelButton}
               />
             </View>
 
-            {
-              payment === 'Receber' &&
-              <View style={styles.valueToReceiveContainer}>
-                <Text style={styles.currencyPrefix}>R$ </Text>
-                <TextInput
-                  style={styles.valueToReceiveInput}
-                  value={valueToReceive}
-                  onChangeText={handleChangeValueToReceive}
-                  placeholder='0,00'
-                  keyboardType='number-pad'
-                />
-              </View>
-            }
+            <View style={styles.button}>
+              <ActionButton
+                type={'Confirmar'}
+                onPress={handleConfirmButton}
+                disabled={isSendingData}
+              />
+            </View>
           </View>
+        </ScrollView>
+      </View>
+    </>
 
-          <Text style={styles.label}>
-            Entregue
-          </Text>
-          <CheckBoxGroup
-            values={['Não', 'Sim']}
-            selectedValue={delivered}
-            setSelectedValue={setDelivered}
-          />
-        </FormContainer>
-
-        <View style={styles.footer}>
-          <View style={styles.button}>
-            <ActionButton
-              type='Cancelar'
-              onPress={handleCancelButton}
-            />
-          </View>
-
-          <View style={styles.button}>
-            <ActionButton
-              type='Confirmar'
-              onPress={handleConfirmButton}
-            />
-          </View>
-        </View>
-      </ScrollView>
-    </View>
   );
 };

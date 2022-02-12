@@ -1,13 +1,14 @@
 // Update with your config settings.
+import 'dotenv/config'
 
 module.exports = {
 
   development: {
     client: "postgres",
     connection: {
-      database: "delivers-app",
-      user: "postgres",
-      password: "123456"
+      database: process.env.PG_DATABASE,
+      user: process.env.PG_USER,
+      password: process.env.PG_PASSWORD
     },
     migrations: {
       directory: './src/database/migrations'

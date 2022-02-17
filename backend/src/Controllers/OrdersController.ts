@@ -7,6 +7,10 @@ interface Product {
   productAmount: number;
 };
 
+interface OrderId {
+  id: number;
+};
+
 export default {
   async create(req: Request, res: Response) {
     const { routeId, client, products, payment, valueToReceive } = req.body;
@@ -14,7 +18,7 @@ export default {
     const trx = await connection.transaction();
 
     try {
-      const orderId = await trx('orders')
+      const orderId: OrderId[] = await trx('orders')
         .returning('id')
         .insert({
           route_id: routeId,
@@ -25,7 +29,7 @@ export default {
 
       const prods = products.map((product: Product) => {
         return {
-          order_id: orderId[0],
+          order_id: orderId[0].id,
           product_id: product.id,
           product_amount: product.productAmount
         };

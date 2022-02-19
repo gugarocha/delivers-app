@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
-    "prod": "node src/server.ts"
+    "deploy": "cd ../ && git subtree push --prefix backend heroku main",
+    "postinstall": "tsc",
+    "prod": "node dist/src/server.js"
   },
   "keywords": [],
   "author": "",

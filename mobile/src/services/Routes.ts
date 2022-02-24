@@ -25,7 +25,7 @@ export async function newRoute({ date, name }: NewRouteProps) {
     const { data } = await api.post('/routes', routeInfo);
 
     return {
-      id: data.id[0],
+      id: data.id,
       date: String(date),
       name
     };

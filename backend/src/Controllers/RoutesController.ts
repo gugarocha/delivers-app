@@ -11,6 +11,10 @@ interface Category {
   data: OrderProducts[];
 };
 
+interface RouteId {
+  id: number;
+};
+
 export default {
   async index(req: Request, res: Response) {
     const routes = await connection('routes')
@@ -104,7 +108,7 @@ export default {
     const { name, date } = req.body;
 
     try {
-      const routeId = await connection('routes')
+      const [routeId]: RouteId[] = await connection('routes')
         .returning('id')
         .insert({
           name,
@@ -113,7 +117,7 @@ export default {
 
       return res.status(201).json({
         message: 'Route created successfully',
-        id: routeId
+        id: routeId.id
       });
 
     } catch (err) {
